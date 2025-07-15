@@ -174,16 +174,6 @@ export default function Index() {
           elevation: 5,
         }}
       >
-        <Text
-          style={{
-            fontSize: 14,
-            color: "#757575",
-            textAlign: "center",
-            fontStyle: "italic",
-          }}
-        >
-          Tugas Pembuatan Bentuk Geometris
-        </Text>
       </View>
     </ScrollView>
   );
