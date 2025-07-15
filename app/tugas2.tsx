@@ -1,4 +1,4 @@
-// GalleryGrid.tsx
+// tugas2.tsx
 import React, { useState } from 'react';
 import {
   View,
@@ -12,32 +12,31 @@ import {
 } from 'react-native';
 
 const { width } = Dimensions.get('window');
-const TILE_SIZE = (width - 40) / 3; // 3 columns with some padding
+const TILE_SIZE = (width - 40) / 3; // 3 kolom dengan margin
 
-// Data gambar utama dan alternatif
+// Buat 9 gambar utama dan 9 alternatif, dipasangkan 1 banding 1
 const images = Array.from({ length: 9 }).map((_, i) => ({
   id: String(i + 1),
   main: `https://picsum.photos/id/${i * 15 + 100}/300`,
   alt: `https://picsum.photos/id/${i * 15 + 300}/300`,
   scale: new Animated.Value(1),
-  currentScale: 1, // ✅ skala saat ini disimpan manual
+  currentScale: 1,
   isAlt: false,
 }));
 
-const GalleryGrid: React.FC = () => {
+const Tugas2: React.FC = () => {
   const [imageData, setImageData] = useState(images);
   const [clicks, setClicks] = useState(0);
 
+  // Fungsi saat gambar diklik: toggle + scale up
   const handlePress = (index: number) => {
     const updated = [...imageData];
     const item = updated[index];
 
-    // Hitung skala baru tanpa __getValue()
     const current = item.currentScale;
-    const next = Math.min(2, current * 1.2);
+    const next = Math.min(2, current * 1.2); // maksimum skala 2x
     item.currentScale = next;
 
-    // Animasi scale
     Animated.spring(item.scale, {
       toValue: next,
       useNativeDriver: true,
@@ -45,13 +44,12 @@ const GalleryGrid: React.FC = () => {
       tension: 80,
     }).start();
 
-    // Toggle ke gambar alternatif
     item.isAlt = !item.isAlt;
-
     setImageData(updated);
     setClicks((prev) => prev + 1);
   };
 
+  // Reset semua gambar ke kondisi awal
   const resetAll = () => {
     const resetImages = imageData.map((item) => {
       item.scale.setValue(1);
@@ -65,8 +63,10 @@ const GalleryGrid: React.FC = () => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.title}>🖼️ Interactive Gallery Grid</Text>
-      <Text style={styles.subtitle}>Tap images to animate and switch version</Text>
+      <Text style={styles.title}>🖼️ Tugas 2 - Gallery Grid</Text>
+      <Text style={styles.subtitle}>
+        9 gambar utama, 9 gambar alternatif, klik untuk toggle dan perbesar
+      </Text>
 
       <View style={styles.grid}>
         {imageData.map((item, index) => (
@@ -83,17 +83,19 @@ const GalleryGrid: React.FC = () => {
               <Image
                 source={{ uri: item.isAlt ? item.alt : item.main }}
                 style={styles.image}
+                onError={() => console.warn(`Gagal memuat gambar ID ${item.id}`)}
               />
+              <Text style={styles.imageId}>ID: {item.id}</Text>
             </Animated.View>
           </TouchableWithoutFeedback>
         ))}
       </View>
 
       <View style={styles.footer}>
-        <Text style={styles.clickText}>Total Clicks: {clicks}</Text>
+        <Text style={styles.clickText}>Total Klik: {clicks}</Text>
         <TouchableWithoutFeedback onPress={resetAll}>
           <View style={styles.resetButton}>
-            <Text style={styles.resetText}>Reset Gallery</Text>
+            <Text style={styles.resetText}>Reset Semua</Text>
           </View>
         </TouchableWithoutFeedback>
       </View>
@@ -108,15 +110,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    fontSize: 24,
-    fontWeight: '800',
+    fontSize: 22,
+    fontWeight: 'bold',
     color: '#1e293b',
     marginTop: 20,
+    textAlign: 'center',
   },
   subtitle: {
     fontSize: 14,
     color: '#475569',
     marginBottom: 15,
+    textAlign: 'center',
   },
   grid: {
     flexDirection: 'row',
@@ -130,10 +134,21 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     overflow: 'hidden',
     backgroundColor: '#e2e8f0',
+    position: 'relative',
   },
   image: {
     width: '100%',
     height: '100%',
+  },
+  imageId: {
+    position: 'absolute',
+    bottom: 4,
+    left: 6,
+    fontSize: 10,
+    color: '#fff',
+    backgroundColor: 'rgba(0,0,0,0.4)',
+    paddingHorizontal: 4,
+    borderRadius: 4,
   },
   footer: {
     marginTop: 20,
@@ -156,4 +171,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default GalleryGrid;
+export default Tugas2;
