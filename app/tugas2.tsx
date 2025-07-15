@@ -1,91 +1,87 @@
-// Tugas2.tsx
+// GalleryGrid.tsx
 import React, { useState } from 'react';
 import {
   View,
-  Image,
+  Text,
   StyleSheet,
   Animated,
   TouchableWithoutFeedback,
+  Image,
   Dimensions,
-  Text,
   ScrollView,
 } from 'react-native';
 
-const NUM_COLUMNS = 3;
-const SPACING = 8;
 const { width } = Dimensions.get('window');
-const IMAGE_SIZE = (width - SPACING * (NUM_COLUMNS + 1)) / NUM_COLUMNS;
+const TILE_SIZE = (width - 40) / 3; // 3 columns with some padding
 
-interface ImageItem {
-  id: string;
-  primary: string;
-  secondary: string;
-  scale: Animated.Value;
-  currentScale: number;
-  isAlt: boolean;
-}
-
-// Buat array gambar utama dan alternatif
-const initialImages: ImageItem[] = Array.from({ length: 9 }).map((_, index) => ({
-  id: `${index + 1}`,
-  primary: `https://picsum.photos/id/${100 + index}/200`,
-  secondary: `https://picsum.photos/id/${200 + index}/200`,
+// Data gambar utama dan alternatif
+const images = Array.from({ length: 9 }).map((_, i) => ({
+  id: String(i + 1),
+  main: `https://picsum.photos/id/${i * 15 + 100}/300`,
+  alt: `https://picsum.photos/id/${i * 15 + 300}/300`,
   scale: new Animated.Value(1),
-  currentScale: 1,
+  currentScale: 1, // ✅ skala saat ini disimpan manual
   isAlt: false,
 }));
 
-const Tugas2: React.FC = () => {
-  const [images, setImages] = useState<ImageItem[]>(initialImages);
+const GalleryGrid: React.FC = () => {
+  const [imageData, setImageData] = useState(images);
   const [clicks, setClicks] = useState(0);
 
   const handlePress = (index: number) => {
-    const updated = [...images];
+    const updated = [...imageData];
     const item = updated[index];
 
-    const nextScale = Math.min(2, item.currentScale * 1.2);
-    item.currentScale = nextScale;
-    item.isAlt = !item.isAlt;
+    // Hitung skala baru tanpa __getValue()
+    const current = item.currentScale;
+    const next = Math.min(2, current * 1.2);
+    item.currentScale = next;
 
+    // Animasi scale
     Animated.spring(item.scale, {
-      toValue: nextScale,
+      toValue: next,
       useNativeDriver: true,
-      friction: 6,
+      friction: 7,
+      tension: 80,
     }).start();
 
-    setImages(updated);
+    // Toggle ke gambar alternatif
+    item.isAlt = !item.isAlt;
+
+    setImageData(updated);
     setClicks((prev) => prev + 1);
   };
 
-  const handleReset = () => {
-    const reset = images.map((img) => {
-      img.scale.setValue(1);
-      return {
-        ...img,
-        currentScale: 1,
-        isAlt: false,
-      };
+  const resetAll = () => {
+    const resetImages = imageData.map((item) => {
+      item.scale.setValue(1);
+      item.currentScale = 1;
+      item.isAlt = false;
+      return item;
     });
-    setImages(reset);
+    setImageData([...resetImages]);
     setClicks(0);
   };
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.title}>🖼️ Grid Gambar Interaktif</Text>
-      <Text style={styles.subtitle}>Klik gambar untuk mengganti dan membesarkan</Text>
+      <Text style={styles.title}>🖼️ Interactive Gallery Grid</Text>
+      <Text style={styles.subtitle}>Tap images to animate and switch version</Text>
 
       <View style={styles.grid}>
-        {images.map((img, index) => (
-          <TouchableWithoutFeedback key={img.id} onPress={() => handlePress(index)}>
+        {imageData.map((item, index) => (
+          <TouchableWithoutFeedback key={item.id} onPress={() => handlePress(index)}>
             <Animated.View
               style={[
-                styles.imageWrapper,
-                { transform: [{ scale: img.scale }] },
+                styles.imageBox,
+                {
+                  transform: [{ scale: item.scale }],
+                  zIndex: item.isAlt ? 10 : 1,
+                },
               ]}
             >
               <Image
-                source={{ uri: img.isAlt ? img.secondary : img.primary }}
+                source={{ uri: item.isAlt ? item.alt : item.main }}
                 style={styles.image}
               />
             </Animated.View>
@@ -94,10 +90,10 @@ const Tugas2: React.FC = () => {
       </View>
 
       <View style={styles.footer}>
-        <Text style={styles.clickText}>Total Klik: {clicks}</Text>
-        <TouchableWithoutFeedback onPress={handleReset}>
+        <Text style={styles.clickText}>Total Clicks: {clicks}</Text>
+        <TouchableWithoutFeedback onPress={resetAll}>
           <View style={styles.resetButton}>
-            <Text style={styles.resetText}>Reset Semua</Text>
+            <Text style={styles.resetText}>Reset Gallery</Text>
           </View>
         </TouchableWithoutFeedback>
       </View>
@@ -107,30 +103,30 @@ const Tugas2: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: {
-    padding: SPACING,
-    alignItems: 'center',
+    padding: 10,
     backgroundColor: '#f1f5f9',
+    alignItems: 'center',
   },
   title: {
-    fontSize: 20,
-    fontWeight: '700',
+    fontSize: 24,
+    fontWeight: '800',
     color: '#1e293b',
-    marginTop: 10,
+    marginTop: 20,
   },
   subtitle: {
     fontSize: 14,
     color: '#475569',
-    marginBottom: 16,
+    marginBottom: 15,
   },
   grid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'center',
   },
-  imageWrapper: {
-    width: IMAGE_SIZE,
-    height: IMAGE_SIZE,
-    margin: SPACING / 2,
+  imageBox: {
+    width: TILE_SIZE,
+    height: TILE_SIZE,
+    margin: 5,
     borderRadius: 12,
     overflow: 'hidden',
     backgroundColor: '#e2e8f0',
@@ -145,19 +141,19 @@ const styles = StyleSheet.create({
   },
   clickText: {
     fontSize: 14,
-    color: '#334155',
-    marginBottom: 8,
+    color: '#1e293b',
+    marginBottom: 10,
   },
   resetButton: {
     backgroundColor: '#ef4444',
-    paddingHorizontal: 24,
     paddingVertical: 10,
+    paddingHorizontal: 20,
     borderRadius: 20,
   },
   resetText: {
-    color: 'white',
+    color: '#ffffff',
     fontWeight: '600',
   },
 });
 
-export default Tugas2;
+export default GalleryGrid;

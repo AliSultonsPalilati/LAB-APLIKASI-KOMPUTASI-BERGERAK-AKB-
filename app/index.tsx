@@ -1,14 +1,9 @@
+// Index.tsx
 import React, { useState } from "react";
-import {
-  Dimensions,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  ScrollView,
-} from "react-native";
+import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+// import { LinearGradient } from 'expo-linear-gradient'; // Uncomment jika menggunakan Expo
 
-// Import komponen tugas
+// Import komponen dari file lain
 import Tugas1 from './tugas1';
 import Tugas2 from './tugas2';
 
@@ -19,29 +14,27 @@ export default function Index(): React.JSX.Element {
 
   return (
     <View style={styles.container}>
-      {/* Header */}
+      {/* Header dengan gradient */}
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Tugas LAB</Text>
         <Text style={styles.headerSubtitle}>Pilih Untuk Melihat Tugas</Text>
       </View>
 
-      {/* Navigasi Tugas */}
+      {/* Navigation Pills */}
       <View style={styles.navigationContainer}>
         <TouchableOpacity
           style={[
             styles.navButton,
-            activeTask === 1 && styles.activeNavButton,
+            activeTask === 1 && styles.activeNavButton
           ]}
           onPress={() => setActiveTask(1)}
           activeOpacity={0.8}
         >
           <View style={styles.navButtonContent}>
-            <Text
-              style={[
-                styles.navButtonText,
-                activeTask === 1 && styles.activeNavButtonText,
-              ]}
-            >
+            <Text style={[
+              styles.navButtonText,
+              activeTask === 1 && styles.activeNavButtonText
+            ]}>
               📋 Tugas 1
             </Text>
             {activeTask === 1 && <View style={styles.activeIndicator} />}
@@ -51,18 +44,16 @@ export default function Index(): React.JSX.Element {
         <TouchableOpacity
           style={[
             styles.navButton,
-            activeTask === 2 && styles.activeNavButton,
+            activeTask === 2 && styles.activeNavButton
           ]}
           onPress={() => setActiveTask(2)}
           activeOpacity={0.8}
         >
           <View style={styles.navButtonContent}>
-            <Text
-              style={[
-                styles.navButtonText,
-                activeTask === 2 && styles.activeNavButtonText,
-              ]}
-            >
+            <Text style={[
+              styles.navButtonText,
+              activeTask === 2 && styles.activeNavButtonText
+            ]}>
               📝 Tugas 2
             </Text>
             {activeTask === 2 && <View style={styles.activeIndicator} />}
@@ -70,14 +61,14 @@ export default function Index(): React.JSX.Element {
         </TouchableOpacity>
       </View>
 
-      {/* Konten Tugas */}
-      <ScrollView contentContainerStyle={styles.contentWrapper} showsVerticalScrollIndicator={false}>
+      {/* Content Area with Card Design */}
+      <View style={styles.contentWrapper}>
         <View style={styles.contentCard}>
           {activeTask === 1 ? <Tugas1 /> : <Tugas2 />}
         </View>
-      </ScrollView>
+      </View>
 
-      {/* Dekorasi */}
+      {/* Decorative Elements */}
       <View style={styles.decorativeCircle1} />
       <View style={styles.decorativeCircle2} />
       <View style={styles.decorativeCircle3} />
@@ -91,7 +82,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#f8fafc",
     position: 'relative',
   },
-
+  
   header: {
     paddingTop: 60,
     paddingBottom: 30,
@@ -100,12 +91,15 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 32,
     borderBottomRightRadius: 32,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
     shadowOpacity: 0.1,
     shadowRadius: 12,
     elevation: 8,
   },
-
+  
   headerTitle: {
     fontSize: 32,
     fontWeight: 'bold',
@@ -113,7 +107,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 8,
   },
-
+  
   headerSubtitle: {
     fontSize: 16,
     color: '#64748b',
@@ -136,7 +130,10 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     paddingHorizontal: 24,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
     shadowOpacity: 0.08,
     shadowRadius: 8,
     elevation: 4,
@@ -179,24 +176,29 @@ const styles = StyleSheet.create({
   },
 
   contentWrapper: {
+    flex: 1,
     paddingHorizontal: 24,
     paddingBottom: 32,
   },
 
   contentCard: {
+    flex: 1,
     backgroundColor: '#ffffff',
     borderRadius: 24,
     padding: 24,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 8 },
+    shadowOffset: {
+      width: 0,
+      height: 8,
+    },
     shadowOpacity: 0.12,
     shadowRadius: 24,
     elevation: 12,
     borderWidth: 1,
     borderColor: '#f1f5f9',
-    minHeight: height * 0.9, // Tambahan agar lebih tinggi
   },
 
+  // Decorative Elements
   decorativeCircle1: {
     position: 'absolute',
     top: -50,

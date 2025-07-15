@@ -1,15 +1,25 @@
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View, StyleSheet, Dimensions } from "react-native";
+
+const screenWidth = Dimensions.get("window").width;
 
 export default function Index() {
+  // Gunakan mode kolom jika layar kecil (misal HP)
+  const isMobile = screenWidth < 600; // ambil ambang batas sekitar 600px
+
   return (
     <View style={styles.container}>
-      <View style={styles.rowContainer}>
+      <View
+        style={[
+          styles.responsiveLayout,
+          { flexDirection: isMobile ? "column" : "row" },
+        ]}
+      >
         <View style={styles.triangleStyle} />
-        
+
         <View style={styles.rectangleContainer}>
           <Text style={styles.nameTextStyle}>Ali Sulton S Palilati</Text>
         </View>
-        
+
         <View style={styles.capsuleContainer}>
           <Text style={styles.nimTextStyle}>105841102222</Text>
         </View>
@@ -24,23 +34,24 @@ const styles = StyleSheet.create({
     backgroundColor: "#FAFAFA",
     justifyContent: "center",
     alignItems: "center",
+    padding: 16,
   },
-  rowContainer: {
-    flexDirection: "row",
-    justifyContent: "space-around",
+  responsiveLayout: {
     alignItems: "center",
-    width: "100%",
-    paddingHorizontal: 10,
+    justifyContent: "center",
+    flexWrap: "wrap",
+    gap: 10,
   },
   triangleStyle: {
     width: 0,
     height: 0,
-    borderLeftWidth: 50,
-    borderRightWidth: 50,
-    borderBottomWidth: 90,
+    borderLeftWidth: 40,
+    borderRightWidth: 40,
+    borderBottomWidth: 70,
     borderLeftColor: "transparent",
     borderRightColor: "transparent",
     borderBottomColor: "#8E24AA",
+    margin: 10,
   },
   rectangleContainer: {
     backgroundColor: "#00796B",
@@ -49,7 +60,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 8,
-    padding: 5,
+    margin: 10,
   },
   capsuleContainer: {
     backgroundColor: "#D84315",
@@ -58,6 +69,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 30,
+    margin: 10,
   },
   nameTextStyle: {
     color: "#FFFFFF",
