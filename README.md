@@ -1,50 +1,104 @@
-# Welcome to your Expo app 👋
+📄 Isi Lengkap README.md:
+md
+Copy
+Edit
+# 📱 Tugas Lab - Aplikasi Komputasi Bergerak
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Selamat datang di repositori ini! 🎉  
+Repositori ini berisi **tugas laboratorium** dari mata kuliah **Aplikasi Komputasi Bergerak** yang dikembangkan menggunakan **React Native + Expo**.
 
-## Get started
+---
 
-1. Install dependencies
+## 🧪 Deskripsi Proyek
 
-   ```bash
-   npm install
-   ```
+Proyek ini merupakan hasil pengerjaan tugas-tugas lab dengan menggunakan **Expo Router** sebagai sistem navigasi dan React Native sebagai framework utama pengembangan aplikasi mobile.
 
-2. Start the app
+Tugas terdiri dari:
 
-   ```bash
-   npx expo start
-   ```
+### ✅ Tugas 1 – Layout Komponen
 
-In the output, you'll find options to open the app in a
+- Menampilkan tiga elemen dalam layout horizontal (atau vertikal pada layar kecil)
+  - 🔺 Segitiga
+  - 📛 Nama lengkap dalam kotak persegi panjang
+  - 🎓 NIM dalam bentuk kapsul
+- Responsif: Layout otomatis menyesuaikan **ukuran layar (HP vs Laptop/Tablet)**
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+### ✅ Tugas 2 – Gallery Grid Interaktif
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+- Menampilkan **9 gambar utama** dalam format **grid 3x3**
+- Setiap gambar:
+  - 🔁 Bisa berubah menjadi gambar **alternatif**
+  - 🔍 Membesar hingga maksimal **2x skala** saat diklik
+  - ✨ Animasi menggunakan `Animated.spring` dari React Native
+- Termasuk tombol **Reset** untuk mengembalikan semua gambar ke kondisi awal
+- Dibuat menggunakan logika `useState`, `Animated.Value`, dan perhitungan `Dimensions` agar responsif
 
-## Get a fresh project
+---
 
-When you're ready, run:
+## 🚀 Cara Menjalankan Aplikasi
+
+### 1. Install dependency
 
 ```bash
-npm run reset-project
-```
+npm install
+2. Jalankan aplikasi
+bash
+Copy
+Edit
+npx expo start
+Aplikasi bisa dibuka melalui:
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+📱 Expo Go di Android/iOS
 
-## Learn more
+💻 Android emulator atau iOS simulator
 
-To learn more about developing your project with Expo, look at the following resources:
+🌐 Web browser
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+📁 Struktur Folder
+yaml
+Copy
+Edit
+.
+├── app/
+│   ├── index.tsx         ← Navigasi utama antar tugas
+│   ├── tugas1.tsx        ← Tugas 1: Layout Komponen
+│   └── tugas2.tsx        ← Tugas 2: Gallery Grid Interaktif
+├── app/_layout.tsx       ← Setup routing Expo Router
+├── README.md             ← File ini
+├── package.json
+└── ...
+🛠️ Teknologi yang Digunakan
+React Native
 
-## Join the community
+Expo
 
-Join our community of developers creating universal apps.
+Expo Router
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Animated, Dimensions, ScrollView, dan komponen UI RN
+
+🙋‍♂️ Tentang Pengembang
+👨‍🎓 Ali Sulton S Palilati
+📚 Mahasiswa Teknik Informatika
+🏫 Universitas Muhammadiyah Makassar
+🆔 NIM: 105841102222
+
+💬 Lisensi
+Proyek ini dibuat untuk keperluan akademik dan tidak untuk digunakan secara komersial tanpa izin.
+
+🌟 Terima Kasih!
+Silakan gunakan proyek ini sebagai referensi atau latihan dalam mempelajari pengembangan aplikasi mobile dengan React Native.
+Jangan lupa ⭐ repo ini jika kamu terbantu!
+
+yaml
+Copy
+Edit
+
+---
+
+### 💾 Cara Simpan:
+1. Buka VS Code atau editor teks.
+2. Buat file baru bernama `README.md` (huruf besar kecil sesuai).
+3. Paste seluruh isi di atas ke file tersebut.
+4. Simpan, dan commit ke repositori GitHub kamu.
+
+Kalau kamu ingin saya kirimkan file ini dalam bentuk `.md` untuk langsung diunduh, tinggal bilang saja
