@@ -1,7 +1,3 @@
-📄 Isi Lengkap README.md:
-md
-Copy
-Edit
 # 📱 Tugas Lab - Aplikasi Komputasi Bergerak
 
 Selamat datang di repositori ini! 🎉  
@@ -41,23 +37,25 @@ Tugas terdiri dari:
 
 ```bash
 npm install
-2. Jalankan aplikasi
-bash
-Copy
-Edit
+```
+
+### 2. Jalankan aplikasi
+
+```bash
 npx expo start
+```
+
 Aplikasi bisa dibuka melalui:
 
-📱 Expo Go di Android/iOS
+- 📱 **Expo Go** di Android/iOS
+- 💻 **Android emulator** atau **iOS simulator**
+- 🌐 **Web browser**
 
-💻 Android emulator atau iOS simulator
+---
 
-🌐 Web browser
+## 📁 Struktur Folder
 
-📁 Struktur Folder
-yaml
-Copy
-Edit
+```
 .
 ├── app/
 │   ├── index.tsx         ← Navigasi utama antar tugas
@@ -67,38 +65,35 @@ Edit
 ├── README.md             ← File ini
 ├── package.json
 └── ...
-🛠️ Teknologi yang Digunakan
-React Native
-
-Expo
-
-Expo Router
-
-Animated, Dimensions, ScrollView, dan komponen UI RN
-
-🙋‍♂️ Tentang Pengembang
-👨‍🎓 Ali Sulton S Palilati
-📚 Mahasiswa Teknik Informatika
-🏫 Universitas Muhammadiyah Makassar
-🆔 NIM: 105841102222
-
-💬 Lisensi
-Proyek ini dibuat untuk keperluan akademik dan tidak untuk digunakan secara komersial tanpa izin.
-
-🌟 Terima Kasih!
-Silakan gunakan proyek ini sebagai referensi atau latihan dalam mempelajari pengembangan aplikasi mobile dengan React Native.
-Jangan lupa ⭐ repo ini jika kamu terbantu!
-
-yaml
-Copy
-Edit
+```
 
 ---
 
-### 💾 Cara Simpan:
-1. Buka VS Code atau editor teks.
-2. Buat file baru bernama `README.md` (huruf besar kecil sesuai).
-3. Paste seluruh isi di atas ke file tersebut.
-4. Simpan, dan commit ke repositori GitHub kamu.
+## 🛠️ Teknologi yang Digunakan
 
-Kalau kamu ingin saya kirimkan file ini dalam bentuk `.md` untuk langsung diunduh, tinggal bilang saja
+- [React Native](https://reactnative.dev/)
+- [Expo](https://expo.dev/)
+- [Expo Router](https://expo.github.io/router/)
+- `Animated`, `Dimensions`, `ScrollView`, dan komponen UI RN
+
+---
+
+## 🙋‍♂️ Tentang Pengembang
+
+👨‍🎓 **Ali Sulton S Palilati**  
+📚 Mahasiswa Teknik Informatika  
+🏫 Universitas Muhammadiyah Makassar  
+🆔 NIM: 105841102222
+
+---
+
+## 💬 Lisensi
+
+Proyek ini dibuat untuk keperluan akademik dan tidak untuk digunakan secara komersial tanpa izin.
+
+---
+
+## 🌟 Terima Kasih!
+
+Silakan gunakan proyek ini sebagai referensi atau latihan dalam mempelajari pengembangan aplikasi mobile dengan React Native.  
+Jangan lupa ⭐ repo ini jika kamu terbantu!
