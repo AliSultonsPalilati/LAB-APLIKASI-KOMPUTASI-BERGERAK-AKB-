@@ -5,84 +5,90 @@ export default function Index() {
     <ScrollView
       style={{
         flex: 1,
-        backgroundColor: "#FAFAFA",
+        backgroundColor: "#F5F5F5",
       }}
       contentContainerStyle={{
         alignItems: "center",
-        paddingVertical: 50,
-        paddingHorizontal: 25,
-        minHeight: "100%",
-        justifyContent: "space-evenly",
+        paddingVertical: 40,
+        paddingHorizontal: 20,
       }}
       showsVerticalScrollIndicator={false}
     >
       {/* BENTUK SEGITIGA */}
       <View
         style={{
+          marginVertical: 30,
           alignItems: "center",
-          marginVertical: 40,
         }}
       >
+        <Text
+          style={{
+            fontSize: 18,
+            fontWeight: "600",
+            color: "#333333",
+            marginBottom: 15,
+          }}
+        >
+          SEGITIGA
+        </Text>
         <View
           style={{
             width: 0,
             height: 0,
             borderStyle: "solid",
-            borderLeftWidth: 75,
-            borderRightWidth: 75,
-            borderBottomWidth: 130,
+            borderLeftWidth: 80,
+            borderRightWidth: 80,
+            borderBottomWidth: 140,
             borderLeftColor: "transparent",
             borderRightColor: "transparent",
-            borderBottomColor: "#E91E63",
-            shadowColor: "#E91E63",
-            shadowOffset: { width: 0, height: 4 },
-            shadowOpacity: 0.3,
-            shadowRadius: 6,
-            elevation: 8,
+            borderBottomColor: "#9C27B0",
+            shadowColor: "#000",
+            shadowOffset: { width: 0, height: 3 },
+            shadowOpacity: 0.2,
+            shadowRadius: 4,
+            elevation: 6,
           }}
         />
-        <Text
-          style={{
-            marginTop: 15,
-            fontSize: 16,
-            fontWeight: "500",
-            color: "#424242",
-            letterSpacing: 0.5,
-          }}
-        >
-          Segitiga
-        </Text>
       </View>
 
-      {/* BENTUK PERSEGI PANJANG DENGAN NAMA */}
+      {/* BENTUK PERSEGI PANJANG DENGAN TEKS NAMA */}
       <View
         style={{
+          marginVertical: 30,
           alignItems: "center",
-          marginVertical: 40,
         }}
       >
+        <Text
+          style={{
+            fontSize: 18,
+            fontWeight: "600",
+            color: "#333333",
+            marginBottom: 15,
+          }}
+        >
+          PERSEGI PANJANG
+        </Text>
         <View
           style={{
-            backgroundColor: "#00ACC1",
-            width: 300,
-            height: 90,
+            backgroundColor: "#2196F3",
+            width: 320,
+            height: 100,
             justifyContent: "center",
             alignItems: "center",
-            borderRadius: 12,
-            borderWidth: 3,
-            borderColor: "#0097A7",
-            shadowColor: "#00ACC1",
-            shadowOffset: { width: 0, height: 5 },
+            borderRadius: 10,
+            borderWidth: 2,
+            borderColor: "#1976D2",
+            shadowColor: "#000",
+            shadowOffset: { width: 0, height: 4 },
             shadowOpacity: 0.25,
-            shadowRadius: 7,
-            elevation: 10,
-            transform: [{ rotate: "0deg" }],
+            shadowRadius: 5,
+            elevation: 8,
           }}
         >
           <Text
             style={{
               color: "#FFFFFF",
-              fontSize: 20,
+              fontSize: 22,
               fontWeight: "700",
               textAlign: "center",
               textShadowColor: "rgba(0, 0, 0, 0.3)",
@@ -93,87 +99,122 @@ export default function Index() {
             Ali Sulton S Palilati
           </Text>
         </View>
-        <Text
-          style={{
-            marginTop: 15,
-            fontSize: 16,
-            fontWeight: "500",
-            color: "#424242",
-            letterSpacing: 0.5,
-          }}
-        >
-          Persegi Panjang
-        </Text>
       </View>
 
-      {/* BENTUK PIL (CAPSULE) DENGAN NIM */}
+      {/* BENTUK PIL (CAPSULE) DENGAN TEKS NIM */}
       <View
         style={{
+          marginVertical: 30,
           alignItems: "center",
-          marginVertical: 40,
         }}
       >
+        <Text
+          style={{
+            fontSize: 18,
+            fontWeight: "600",
+            color: "#333333",
+            marginBottom: 15,
+          }}
+        >
+          BENTUK PIL (CAPSULE)
+        </Text>
         <View
           style={{
-            backgroundColor: "#FF7043",
-            width: 280,
-            height: 65,
+            backgroundColor: "#FF5722",
+            width: 300,
+            height: 70,
             justifyContent: "center",
             alignItems: "center",
-            borderRadius: 32.5,
+            borderRadius: 35, // Setengah dari height untuk membuat ujung bulat penuh
             borderWidth: 2,
-            borderColor: "#FF5722",
-            shadowColor: "#FF7043",
+            borderColor: "#D84315",
+            shadowColor: "#000",
             shadowOffset: { width: 0, height: 4 },
-            shadowOpacity: 0.3,
-            shadowRadius: 8,
-            elevation: 12,
+            shadowOpacity: 0.25,
+            shadowRadius: 5,
+            elevation: 8,
           }}
         >
           <Text
             style={{
               color: "#FFFFFF",
-              fontSize: 18,
+              fontSize: 20,
               fontWeight: "600",
-              letterSpacing: 2,
               textAlign: "center",
-              textShadowColor: "rgba(0, 0, 0, 0.25)",
+              letterSpacing: 1.5,
+              textShadowColor: "rgba(0, 0, 0, 0.3)",
               textShadowOffset: { width: 1, height: 1 },
-              textShadowRadius: 1,
+              textShadowRadius: 2,
             }}
           >
             105841102222
           </Text>
         </View>
-        <Text
-          style={{
-            marginTop: 15,
-            fontSize: 16,
-            fontWeight: "500",
-            color: "#424242",
-            letterSpacing: 0.5,
-          }}
-        >
-          Bentuk Pil (Capsule)
-        </Text>
       </View>
 
-      {/* FOOTER INFO */}
+      {/* PENJELASAN PERBEDAAN BENTUK */}
       <View
         style={{
-          marginTop: 30,
+          marginTop: 40,
           padding: 20,
           backgroundColor: "#FFFFFF",
-          borderRadius: 15,
+          borderRadius: 12,
           borderWidth: 1,
           borderColor: "#E0E0E0",
           shadowColor: "#000",
           shadowOffset: { width: 0, height: 2 },
           shadowOpacity: 0.1,
-          shadowRadius: 4,
-          elevation: 5,
+          shadowRadius: 3,
+          elevation: 4,
+          width: "90%",
         }}
       >
+        <Text
+          style={{
+            fontSize: 16,
+            fontWeight: "600",
+            color: "#333333",
+            marginBottom: 10,
+            textAlign: "center",
+          }}
+        >
+          Penjelasan Bentuk:
+        </Text>
+        <Text
+          style={{
+            fontSize: 14,
+            color: "#666666",
+            lineHeight: 20,
+            textAlign: "left",
+          }}
+        >
+          • Segitiga: Dibuat dengan border triangle technique{'\n'}
+          • Persegi Panjang: Width lebih besar dari height (320x100){'\n'}
+          • Bentuk Pil: Persegi panjang dengan border-radius = height/2 (35px) untuk ujung bulat penuh
+        </Text>
+      </View>
+
+      {/* FOOTER */}
+      <View
+        style={{
+          marginTop: 30,
+          marginBottom: 20,
+          padding: 15,
+          backgroundColor: "#4CAF50",
+          borderRadius: 8,
+          width: "80%",
+        }}
+      >
+        <Text
+          style={{
+            fontSize: 14,
+            color: "#FFFFFF",
+            textAlign: "center",
+            fontWeight: "500",
+          }}
+        >
+          Tugas Pembuatan Bentuk Geometris
+        </Text>
       </View>
     </ScrollView>
   );
