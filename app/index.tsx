@@ -5,215 +5,290 @@ export default function Index() {
     <ScrollView
       style={{
         flex: 1,
-        backgroundColor: "#F5F5F5",
+        backgroundColor: "#ECEFF1",
       }}
       contentContainerStyle={{
         alignItems: "center",
-        paddingVertical: 40,
-        paddingHorizontal: 20,
+        paddingVertical: 60,
+        paddingHorizontal: 30,
+        minHeight: "100%",
       }}
-      showsVerticalScrollIndicator={false}
+      showsVerticalScrollIndicator={true}
     >
-      {/* BENTUK SEGITIGA */}
+      {/* HEADER TUGAS */}
       <View
         style={{
-          marginVertical: 30,
-          alignItems: "center",
+          backgroundColor: "#37474F",
+          paddingVertical: 18,
+          paddingHorizontal: 25,
+          borderRadius: 25,
+          marginBottom: 50,
+          borderWidth: 3,
+          borderColor: "#263238",
         }}
       >
         <Text
           style={{
-            fontSize: 18,
-            fontWeight: "600",
-            color: "#333333",
-            marginBottom: 15,
-          }}
-        >
-          SEGITIGA
-        </Text>
-        <View
-          style={{
-            width: 0,
-            height: 0,
-            borderStyle: "solid",
-            borderLeftWidth: 80,
-            borderRightWidth: 80,
-            borderBottomWidth: 140,
-            borderLeftColor: "transparent",
-            borderRightColor: "transparent",
-            borderBottomColor: "#9C27B0",
-            shadowColor: "#000",
-            shadowOffset: { width: 0, height: 3 },
-            shadowOpacity: 0.2,
-            shadowRadius: 4,
-            elevation: 6,
-          }}
-        />
-      </View>
-
-      {/* BENTUK PERSEGI PANJANG DENGAN TEKS NAMA */}
-      <View
-        style={{
-          marginVertical: 30,
-          alignItems: "center",
-        }}
-      >
-        <Text
-          style={{
-            fontSize: 18,
-            fontWeight: "600",
-            color: "#333333",
-            marginBottom: 15,
-          }}
-        >
-          PERSEGI PANJANG
-        </Text>
-        <View
-          style={{
-            backgroundColor: "#2196F3",
-            width: 320,
-            height: 100,
-            justifyContent: "center",
-            alignItems: "center",
-            borderRadius: 10,
-            borderWidth: 2,
-            borderColor: "#1976D2",
-            shadowColor: "#000",
-            shadowOffset: { width: 0, height: 4 },
-            shadowOpacity: 0.25,
-            shadowRadius: 5,
-            elevation: 8,
-          }}
-        >
-          <Text
-            style={{
-              color: "#FFFFFF",
-              fontSize: 22,
-              fontWeight: "700",
-              textAlign: "center",
-              textShadowColor: "rgba(0, 0, 0, 0.3)",
-              textShadowOffset: { width: 1, height: 1 },
-              textShadowRadius: 2,
-            }}
-          >
-            Ali Sulton S Palilati
-          </Text>
-        </View>
-      </View>
-
-      {/* BENTUK PIL (CAPSULE) DENGAN TEKS NIM */}
-      <View
-        style={{
-          marginVertical: 30,
-          alignItems: "center",
-        }}
-      >
-        <Text
-          style={{
-            fontSize: 18,
-            fontWeight: "600",
-            color: "#333333",
-            marginBottom: 15,
-          }}
-        >
-          BENTUK PIL (CAPSULE)
-        </Text>
-        <View
-          style={{
-            backgroundColor: "#FF5722",
-            width: 300,
-            height: 70,
-            justifyContent: "center",
-            alignItems: "center",
-            borderRadius: 35, // Setengah dari height untuk membuat ujung bulat penuh
-            borderWidth: 2,
-            borderColor: "#D84315",
-            shadowColor: "#000",
-            shadowOffset: { width: 0, height: 4 },
-            shadowOpacity: 0.25,
-            shadowRadius: 5,
-            elevation: 8,
-          }}
-        >
-          <Text
-            style={{
-              color: "#FFFFFF",
-              fontSize: 20,
-              fontWeight: "600",
-              textAlign: "center",
-              letterSpacing: 1.5,
-              textShadowColor: "rgba(0, 0, 0, 0.3)",
-              textShadowOffset: { width: 1, height: 1 },
-              textShadowRadius: 2,
-            }}
-          >
-            105841102222
-          </Text>
-        </View>
-      </View>
-
-      {/* PENJELASAN PERBEDAAN BENTUK */}
-      <View
-        style={{
-          marginTop: 40,
-          padding: 20,
-          backgroundColor: "#FFFFFF",
-          borderRadius: 12,
-          borderWidth: 1,
-          borderColor: "#E0E0E0",
-          shadowColor: "#000",
-          shadowOffset: { width: 0, height: 2 },
-          shadowOpacity: 0.1,
-          shadowRadius: 3,
-          elevation: 4,
-          width: "90%",
-        }}
-      >
-        <Text
-          style={{
+            color: "#FFFFFF",
             fontSize: 16,
-            fontWeight: "600",
-            color: "#333333",
-            marginBottom: 10,
+            fontWeight: "800",
             textAlign: "center",
+            letterSpacing: 1,
           }}
         >
-          Penjelasan Bentuk:
-        </Text>
-        <Text
-          style={{
-            fontSize: 14,
-            color: "#666666",
-            lineHeight: 20,
-            textAlign: "left",
-          }}
-        >
-          • Segitiga: Dibuat dengan border triangle technique{'\n'}
-          • Persegi Panjang: Width lebih besar dari height (320x100){'\n'}
-          • Bentuk Pil: Persegi panjang dengan border-radius = height/2 (35px) untuk ujung bulat penuh
+          IMPLEMENTASI BENTUK GEOMETRIS
         </Text>
       </View>
 
-      {/* FOOTER */}
+      {/* BAGIAN 1: SEGITIGA */}
+      <View
+        style={{
+          backgroundColor: "#FFFFFF",
+          paddingVertical: 35,
+          paddingHorizontal: 40,
+          borderRadius: 18,
+          marginBottom: 35,
+          shadowColor: "#000",
+          shadowOffset: { width: 0, height: 6 },
+          shadowOpacity: 0.15,
+          shadowRadius: 8,
+          elevation: 10,
+          borderLeftWidth: 4,
+          borderLeftColor: "#D32F2F",
+        }}
+      >
+        <Text
+          style={{
+            fontSize: 15,
+            fontWeight: "700",
+            color: "#D32F2F",
+            marginBottom: 25,
+            textAlign: "center",
+            textTransform: "uppercase",
+            letterSpacing: 2,
+          }}
+        >
+          1. Segitiga
+        </Text>
+        <View
+          style={{
+            alignItems: "center",
+          }}
+        >
+          <View
+            style={{
+              width: 0,
+              height: 0,
+              borderStyle: "solid",
+              borderLeftWidth: 85,
+              borderRightWidth: 85,
+              borderBottomWidth: 150,
+              borderLeftColor: "transparent",
+              borderRightColor: "transparent",
+              borderBottomColor: "#D32F2F",
+              transform: [{ rotate: "0deg" }],
+              shadowColor: "#D32F2F",
+              shadowOffset: { width: 0, height: 8 },
+              shadowOpacity: 0.4,
+              shadowRadius: 10,
+              elevation: 12,
+            }}
+          />
+        </View>
+      </View>
+
+      {/* BAGIAN 2: PERSEGI PANJANG */}
+      <View
+        style={{
+          backgroundColor: "#FFFFFF",
+          paddingVertical: 35,
+          paddingHorizontal: 40,
+          borderRadius: 18,
+          marginBottom: 35,
+          shadowColor: "#000",
+          shadowOffset: { width: 0, height: 6 },
+          shadowOpacity: 0.15,
+          shadowRadius: 8,
+          elevation: 10,
+          borderLeftWidth: 4,
+          borderLeftColor: "#1976D2",
+        }}
+      >
+        <Text
+          style={{
+            fontSize: 15,
+            fontWeight: "700",
+            color: "#1976D2",
+            marginBottom: 25,
+            textAlign: "center",
+            textTransform: "uppercase",
+            letterSpacing: 2,
+          }}
+        >
+          2. Persegi Panjang
+        </Text>
+        <View
+          style={{
+            alignItems: "center",
+          }}
+        >
+          <View
+            style={{
+              backgroundColor: "#1976D2",
+              width: 340,
+              height: 95,
+              justifyContent: "center",
+              alignItems: "center",
+              borderRadius: 6,
+              borderWidth: 3,
+              borderColor: "#0D47A1",
+              shadowColor: "#1976D2",
+              shadowOffset: { width: 0, height: 6 },
+              shadowOpacity: 0.35,
+              shadowRadius: 9,
+              elevation: 12,
+              transform: [{ scale: 1.02 }],
+            }}
+          >
+            <Text
+              style={{
+                color: "#FFFFFF",
+                fontSize: 19,
+                fontWeight: "800",
+                textAlign: "center",
+                textShadowColor: "rgba(0, 0, 0, 0.4)",
+                textShadowOffset: { width: 2, height: 2 },
+                textShadowRadius: 3,
+                letterSpacing: 0.8,
+              }}
+            >
+              Ali Sulton S Palilati
+            </Text>
+          </View>
+        </View>
+      </View>
+
+      {/* BAGIAN 3: BENTUK PIL (CAPSULE) */}
+      <View
+        style={{
+          backgroundColor: "#FFFFFF",
+          paddingVertical: 35,
+          paddingHorizontal: 40,
+          borderRadius: 18,
+          marginBottom: 35,
+          shadowColor: "#000",
+          shadowOffset: { width: 0, height: 6 },
+          shadowOpacity: 0.15,
+          shadowRadius: 8,
+          elevation: 10,
+          borderLeftWidth: 4,
+          borderLeftColor: "#F57C00",
+        }}
+      >
+        <Text
+          style={{
+            fontSize: 15,
+            fontWeight: "700",
+            color: "#F57C00",
+            marginBottom: 25,
+            textAlign: "center",
+            textTransform: "uppercase",
+            letterSpacing: 2,
+          }}
+        >
+          3. Bentuk Pil (Capsule)
+        </Text>
+        <View
+          style={{
+            alignItems: "center",
+          }}
+        >
+          <View
+            style={{
+              backgroundColor: "#F57C00",
+              width: 320,
+              height: 75,
+              justifyContent: "center",
+              alignItems: "center",
+              borderRadius: 37.5, // Setengah dari height untuk capsule sempurna
+              borderWidth: 3,
+              borderColor: "#E65100",
+              shadowColor: "#F57C00",
+              shadowOffset: { width: 0, height: 6 },
+              shadowOpacity: 0.35,
+              shadowRadius: 9,
+              elevation: 12,
+              transform: [{ scale: 1.02 }],
+            }}
+          >
+            <Text
+              style={{
+                color: "#FFFFFF",
+                fontSize: 18,
+                fontWeight: "700",
+                textAlign: "center",
+                letterSpacing: 3,
+                textShadowColor: "rgba(0, 0, 0, 0.4)",
+                textShadowOffset: { width: 2, height: 2 },
+                textShadowRadius: 3,
+              }}
+            >
+              105841102222
+            </Text>
+          </View>
+        </View>
+      </View>
+
+      {/* CATATAN IMPLEMENTASI */}
+      <View
+        style={{
+          backgroundColor: "#263238",
+          paddingVertical: 20,
+          paddingHorizontal: 25,
+          borderRadius: 15,
+          marginTop: 20,
+          borderWidth: 2,
+          borderColor: "#37474F",
+          width: "95%",
+        }}
+      >
+        <Text
+          style={{
+            color: "#FFFFFF",
+            fontSize: 14,
+            fontWeight: "600",
+            textAlign: "center",
+            lineHeight: 22,
+          }}
+        >
+          Implementasi menggunakan React Native StyleSheet{'\n'}
+          dengan teknik border manipulation untuk segitiga{'\n'}
+          dan border-radius calculation untuk bentuk capsule
+        </Text>
+      </View>
+
+      {/* IDENTITAS */}
       <View
         style={{
           marginTop: 30,
-          marginBottom: 20,
-          padding: 15,
-          backgroundColor: "#4CAF50",
-          borderRadius: 8,
-          width: "80%",
+          backgroundColor: "#455A64",
+          paddingVertical: 12,
+          paddingHorizontal: 20,
+          borderRadius: 20,
+          borderWidth: 2,
+          borderColor: "#37474F",
         }}
       >
         <Text
           style={{
-            fontSize: 14,
             color: "#FFFFFF",
-            textAlign: "center",
+            fontSize: 12,
             fontWeight: "500",
+            textAlign: "center",
+            fontStyle: "italic",
           }}
         >
-          Tugas Pembuatan Bentuk Geometris
+          Tugas Pemrograman Mobile - Geometri
         </Text>
       </View>
     </ScrollView>
