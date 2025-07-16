@@ -6,6 +6,7 @@ import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from "react-nati
 // Import komponen dari file lain
 import Tugas1 from './tugas1';
 import Tugas2 from './tugas2';
+import Tugas3 from './tugas3';
 
 const { height } = Dimensions.get('window');
 
@@ -59,12 +60,31 @@ export default function Index(): React.JSX.Element {
             {activeTask === 2 && <View style={styles.activeIndicator} />}
           </View>
         </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[
+            styles.navButton,
+            activeTask === 3 && styles.activeNavButton
+          ]}
+          onPress={() => setActiveTask(3)}
+          activeOpacity={0.8}
+        >
+          <View style={styles.navButtonContent}>
+            <Text style={[
+              styles.navButtonText,
+              activeTask === 3 && styles.activeNavButtonText
+            ]}>
+              📝 Tugas 3
+            </Text>
+            {activeTask === 3 && <View style={styles.activeIndicator} />}
+          </View>
+        </TouchableOpacity>
       </View>
 
       {/* Content Area with Card Design */}
       <View style={styles.contentWrapper}>
         <View style={styles.contentCard}>
-          {activeTask === 1 ? <Tugas1 /> : <Tugas2 />}
+          {activeTask === 1 ? <Tugas1 /> : activeTask === 2 ? <Tugas2 /> : activeTask === 3 ? <Tugas3 /> : null}
         </View>
       </View>
 
