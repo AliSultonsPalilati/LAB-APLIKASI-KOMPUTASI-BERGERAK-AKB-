@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
 
 const Tugas3 = () => {
   const [activeSection, setActiveSection] = useState('reactNative');
@@ -44,7 +44,7 @@ const Tugas3 = () => {
         <Text style={styles.bulletPoint}>• Hemat biaya (satu tim bisa buat dua aplikasi)</Text>
         <Text style={styles.bulletPoint}>• Mudah dipelihara dan diperbarui</Text>
         <Text style={styles.bulletPoint}>• Kinerja mendekati aplikasi asli</Text>
-        <Text style={styles.bulletPoint}>• Didukung penuh oleh Facebook</Text>
+        <Text style={styles.bulletPoint}>• Didukung penuh oleh Facebook/Meta</Text>
       </View>
 
       <View style={styles.card}>
@@ -253,12 +253,7 @@ const Tugas3 = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>Tugas 3</Text>
-        <Text style={styles.headerSubtitle}>React Native & Expo</Text>
-      </View>
-      
+    <SafeAreaView style={styles.container}>
       <View style={styles.tabContainer}>
         {sections.map((section) => (
           <TouchableOpacity
@@ -268,6 +263,7 @@ const Tugas3 = () => {
               activeSection === section.id && styles.activeTab
             ]}
             onPress={() => setActiveSection(section.id)}
+            activeOpacity={0.7}
           >
             <Text style={[
               styles.tabText,
@@ -279,10 +275,14 @@ const Tugas3 = () => {
         ))}
       </View>
 
-      <ScrollView style={styles.scrollContainer}>
+      <ScrollView 
+        style={styles.scrollContainer}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.scrollContentContainer}
+      >
         {renderContent()}
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -290,23 +290,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#f5f7fa',
-  },
-  header: {
-    backgroundColor: '#667eea',
-    paddingTop: 50,
-    paddingBottom: 20,
-    paddingHorizontal: 20,
-    alignItems: 'center',
-  },
-  headerTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: 'white',
-    marginBottom: 5,
-  },
-  headerSubtitle: {
-    fontSize: 16,
-    color: '#e0e7ff',
   },
   tabContainer: {
     flexDirection: 'row',
@@ -338,6 +321,9 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     flex: 1,
+  },
+  scrollContentContainer: {
+    paddingBottom: 20,
   },
   contentContainer: {
     padding: 20,
