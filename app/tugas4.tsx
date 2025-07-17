@@ -14,18 +14,16 @@ import {
 // CATATAN: File ini seharusnya berada di dalam folder 'app/components/'
 // agar tidak dianggap sebagai halaman terpisah oleh Expo Router.
 
-// PERUBAHAN: Struktur data diubah menjadi array objek dengan NIM dan Nama
+// PERBAIKAN: Daftar mahasiswa telah diurutkan berdasarkan NIM untuk memenuhi persyaratan tugas.
 const mahasiswaRoster = [
   { nim: "105841100119", nama: "Muhammad Yusuf" },
-  { nim: "105841109219", nama: "Muh. Asdar" },
-  { nim: "105841109820", nama: "Muh. Ashabul Khahfi" },
-  { nim: "105841100921", nama: "Arif Rahman" },
   { nim: "105841100122", nama: "Siti Marwa" },
   { nim: "105841100322", nama: "Fajar Eka Alamsyah" },
   { nim: "105841100422", nama: "Ferdiansyah" },
   { nim: "105841100622", nama: "Parwati" },
   { nim: "105841100722", nama: "Nabila Ismail Matta" },
   { nim: "105841100822", nama: "Nur Milani Hidayah" },
+  { nim: "105841100921", nama: "Arif Rahman" },
   { nim: "105841101122", nama: "A. Fajar Apriliawan" },
   { nim: "105841101222", nama: "Syaripuddin" },
   { nim: "105841101322", nama: "Muhammad Adianto" },
@@ -43,11 +41,13 @@ const mahasiswaRoster = [
   { nim: "105841103522", nama: "Alvian Syah Burhani" },
   { nim: "105841103622", nama: "Majeri" },
   { nim: "105841103722", nama: "Hamdani" },
-  { nim: "105841103822", nama: "Muliana" }
+  { nim: "105841103822", nama: "Muliana" },
+  { nim: "105841109219", nama: "Muh. Asdar" },
+  { nim: "105841109820", nama: "Muh. Ashabul Khahfi" },
 ];
 
 export default function FontOrderingAssignment() {
-  // PERUBAHAN: State sekarang menggunakan NIM, bukan nomor urut
+  // State sekarang menggunakan NIM, bukan nomor urut
   const [inputNim, setInputNim] = useState('105841102222');
   const [currentNim, setCurrentNim] = useState('105841102222');
 
@@ -61,9 +61,9 @@ export default function FontOrderingAssignment() {
     if (currentIndex === -1) return [];
     const totalStudents = mahasiswaRoster.length;
     const results = [];
-    for (let i = 0; i < 5; i++) {
-      const targetIndex = (currentIndex - 5 + i + totalStudents) % totalStudents;
-      results.push(mahasiswaRoster[targetIndex]);
+    for (let i = 1; i <= 5; i++) {
+      const targetIndex = (currentIndex - i + totalStudents) % totalStudents;
+      results.unshift(mahasiswaRoster[targetIndex]); // unshift untuk menjaga urutan
     }
     return results;
   }, [currentIndex]);
@@ -72,8 +72,8 @@ export default function FontOrderingAssignment() {
     if (currentIndex === -1) return [];
     const totalStudents = mahasiswaRoster.length;
     const results = [];
-    for (let i = 0; i < 5; i++) {
-      const targetIndex = (currentIndex + 1 + i) % totalStudents;
+    for (let i = 1; i <= 5; i++) {
+      const targetIndex = (currentIndex + i) % totalStudents;
       results.push(mahasiswaRoster[targetIndex]);
     }
     return results;
