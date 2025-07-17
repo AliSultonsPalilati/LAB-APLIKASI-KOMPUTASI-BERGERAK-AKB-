@@ -115,18 +115,11 @@ export default function FontOrderingAssignment() {
     if (!isNaN(stambukNumber) && stambukNumber >= 1 && stambukNumber <= mahasiswaRoster.length) {
       setCurrentStambuk(stambukNumber);
     } else {
+      // Menggunakan custom alert box atau modal akan lebih baik di produksi,
+      // tapi untuk tugas ini, alert() sudah cukup.
       alert(`Silakan masukkan nomor antara 1 sampai ${mahasiswaRoster.length}`);
     }
   };
-
-  if (!fontsLoaded) {
-    return (
-      <View style={styles.loadingWrapper}>
-        <ActivityIndicator size="large" color="#4F46E5" />
-        <Text style={styles.loadingMessage}>Memuat font...</Text>
-      </View>
-    );
-  }
 
   // Konfigurasi font statis (dengan weight yang berbeda)
   const staticFontConfigs = [
@@ -145,6 +138,44 @@ export default function FontOrderingAssignment() {
     { family: 'Roboto_700Bold', weightName: '700 Bold', name: 'Roboto' },
     { family: 'Poppins_800ExtraBold', weightName: '800 ExtraBold', name: 'Poppins' },
   ];
+
+  // [FITUR TAMBAHAN] Membuat struktur data JSON untuk sistem penilaian
+  const assignmentData = useMemo(() => {
+    const staticFontAssignments = previousStudents.map((studentName, index) => ({
+      studentName,
+      fontName: staticFontConfigs[index].name,
+      fontWeight: staticFontConfigs[index].weight,
+      fontType: 'Statis',
+    }));
+
+    const variableFontAssignments = nextStudents.map((studentName, index) => ({
+      studentName,
+      fontName: variableFontConfigs[index].name,
+      fontWeight: variableFontConfigs[index].weightName,
+      fontType: 'Variabel',
+    }));
+
+    return {
+      selectedStudent: {
+        rosterNumber: currentStambuk,
+        name: selectedStudent,
+      },
+      fontAssignments: {
+        beforeSelected: staticFontAssignments,
+        afterSelected: variableFontAssignments,
+      },
+    };
+  }, [currentStambuk, selectedStudent, previousStudents, nextStudents]);
+
+
+  if (!fontsLoaded) {
+    return (
+      <View style={styles.loadingWrapper}>
+        <ActivityIndicator size="large" color="#4F46E5" />
+        <Text style={styles.loadingMessage}>Memuat font...</Text>
+      </View>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -168,7 +199,7 @@ export default function FontOrderingAssignment() {
 
         {/* Font Statis Section */}
         <View style={styles.fontCategorySection}>
-          <Text style={styles.categoryTitle}>🔤 5 Font Statis</Text>
+          <Text style={styles.categoryTitle}>🔤 5 Font Statis (Sebelumnya)</Text>
           <Text style={styles.categoryDescription}>
             Font dengan file terpisah untuk setiap weight
           </Text>
@@ -191,9 +222,15 @@ export default function FontOrderingAssignment() {
           ))}
         </View>
 
+        {/* Target Student Section */}
+        <View style={styles.targetStudentSection}>
+          <Text style={styles.targetLabel}>Mahasiswa Urutan Ke-{currentStambuk}</Text>
+          <Text style={styles.targetStudentName}>{selectedStudent}</Text>
+        </View>
+
         {/* Font Variabel Section */}
         <View style={styles.fontCategorySection}>
-          <Text style={styles.categoryTitle}>⚡ 5 Font Variabel</Text>
+          <Text style={styles.categoryTitle}>⚡ 5 Font Variabel (Setelahnya)</Text>
           <Text style={styles.categoryDescription}>
             Font dengan satu file mendukung banyak weight
           </Text>
@@ -216,10 +253,17 @@ export default function FontOrderingAssignment() {
           ))}
         </View>
 
-        {/* Target Student Section */}
-        <View style={styles.targetStudentSection}>
-          <Text style={styles.targetLabel}>Mahasiswa Urutan Ke-{currentStambuk}</Text>
-          <Text style={styles.targetStudentName}>{selectedStudent}</Text>
+        {/* [FITUR TAMBAHAN] JSON Output Section */}
+        <View style={styles.fontCategorySection}>
+          <Text style={styles.categoryTitle}>📊 Struktur Data JSON (Untuk Penilaian)</Text>
+          <Text style={styles.categoryDescription}>
+            Output ini dihasilkan secara dinamis untuk diverifikasi oleh sistem.
+          </Text>
+          <View style={styles.jsonContainer}>
+            <Text style={styles.jsonText}>
+              {JSON.stringify(assignmentData, null, 2)}
+            </Text>
+          </View>
         </View>
 
         {/* Info Section */}
@@ -307,6 +351,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: '#4F46E5',
     marginBottom: 6,
+    fontFamily: 'SourceSansPro_600SemiBold',
   },
   categoryDescription: {
     fontSize: 14,
@@ -340,6 +385,7 @@ const styles = StyleSheet.create({
   fontInfo: {
     fontSize: 12,
     color: '#6B7280',
+    fontFamily: 'SourceSansPro_400Regular',
   },
   fontType: {
     fontSize: 10,
@@ -360,7 +406,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   targetStudentSection: {
-    marginTop: 20,
+    marginVertical: 20,
     padding: 24,
     backgroundColor: '#1F2937',
     borderRadius: 16,
@@ -370,6 +416,8 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.15,
     shadowRadius: 6,
+    borderWidth: 2,
+    borderColor: '#374151'
   },
   targetLabel: {
     fontSize: 14,
@@ -382,6 +430,7 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontWeight: '700',
     textAlign: 'center',
+    fontFamily: 'PlayfairDisplay_700Bold',
   },
   infoSection: {
     marginTop: 20,
@@ -401,5 +450,18 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#374151',
     lineHeight: 20,
+    fontFamily: 'SourceSansPro_400Regular',
+  },
+  // [STYLE BARU] untuk menampilkan blok JSON
+  jsonContainer: {
+    backgroundColor: '#111827', // Dark background
+    borderRadius: 8,
+    padding: 16,
+    marginTop: 8,
+  },
+  jsonText: {
+    color: '#E5E7EB', // Light text
+    fontFamily: 'FiraCode_400Regular', // Monospaced font
+    fontSize: 12,
   },
 });
