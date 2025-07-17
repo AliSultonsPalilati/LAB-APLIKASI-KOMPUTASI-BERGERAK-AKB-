@@ -8,187 +8,116 @@ import {
   StatusBar,
   TextInput,
   TouchableOpacity,
-  ActivityIndicator,
   Keyboard,
 } from 'react-native';
 
-import { useFonts } from 'expo-font';
+// CATATAN: File ini seharusnya berada di dalam folder 'app/components/'
+// agar tidak dianggap sebagai halaman terpisah oleh Expo Router.
 
-// 5 FONT STATIS (file terpisah untuk setiap weight)
-import { FiraCode_400Regular, FiraCode_700Bold } from '@expo-google-fonts/fira-code';
-import { SourceSansPro_400Regular, SourceSansPro_600SemiBold } from '@expo-google-fonts/source-sans-pro';
-import { PlayfairDisplay_400Regular, PlayfairDisplay_700Bold } from '@expo-google-fonts/playfair-display';
-import { Merriweather_400Regular, Merriweather_700Bold } from '@expo-google-fonts/merriweather';
-import { Lora_400Regular, Lora_700Bold } from '@expo-google-fonts/lora';
-
-// 5 FONT VARIABEL - menggunakan weight files yang berbeda untuk mensimulasikan variable font
-import { Inter_300Light, Inter_500Medium, Inter_600SemiBold, Inter_700Bold, Inter_800ExtraBold } from '@expo-google-fonts/inter';
-import { Montserrat_300Light, Montserrat_500Medium, Montserrat_600SemiBold, Montserrat_700Bold, Montserrat_800ExtraBold } from '@expo-google-fonts/montserrat';
-import { OpenSans_300Light, OpenSans_500Medium, OpenSans_600SemiBold, OpenSans_700Bold, OpenSans_800ExtraBold } from '@expo-google-fonts/open-sans';
-import { Roboto_300Light, Roboto_500Medium, Roboto_700Bold, Roboto_900Black } from '@expo-google-fonts/roboto';
-import { Poppins_300Light, Poppins_500Medium, Poppins_600SemiBold, Poppins_700Bold, Poppins_800ExtraBold } from '@expo-google-fonts/poppins';
-
+// PERUBAHAN: Struktur data diubah menjadi array objek dengan NIM dan Nama
 const mahasiswaRoster = [
-  "Hamdani", "Majeri", "Ali Sulton S Palilati", "Citra Lestari", "Alviansyah Burhani",
-  "Fajar Rahma", "Nabila Ismail Matta", "Siti Marwa", "Muliana", "Nurmisba",
-  "Erick Yusuf Kotte", "Andi Ikram Mukarram", "Ferdiansyah", "Nadia Putri", "Oscar Mahendra",
-  "Putri Amelia", "Qori Hidayat", "Rian Saputra", "Siti Nurhaliza", "Taufik Hidayat"
+  { nim: "105841100119", nama: "Muhammad Yusuf" },
+  { nim: "105841109219", nama: "Muh. Asdar" },
+  { nim: "105841109820", nama: "Muh. Ashabul Khahfi" },
+  { nim: "105841100921", nama: "Arif Rahman" },
+  { nim: "105841100122", nama: "Siti Marwa" },
+  { nim: "105841100322", nama: "Fajar Eka Alamsyah" },
+  { nim: "105841100422", nama: "Ferdiansyah" },
+  { nim: "105841100622", nama: "Parwati" },
+  { nim: "105841100722", nama: "Nabila Ismail Matta" },
+  { nim: "105841100822", nama: "Nur Milani Hidayah" },
+  { nim: "105841101122", nama: "A. Fajar Apriliawan" },
+  { nim: "105841101222", nama: "Syaripuddin" },
+  { nim: "105841101322", nama: "Muhammad Adianto" },
+  { nim: "105841101522", nama: "Absarmarsal Rizwal Mahua" },
+  { nim: "105841101622", nama: "Syawaluddin" },
+  { nim: "105841101722", nama: "Andi Citra Ayu Lestari" },
+  { nim: "105841101822", nama: "Farisan" },
+  { nim: "105841101922", nama: "Erick Yusuf Kotte" },
+  { nim: "105841102222", nama: "Ali Sulton S Palilati" },
+  { nim: "105841102622", nama: "A. Ikram Mukarram" },
+  { nim: "105841102922", nama: "Ahmad Fathir" },
+  { nim: "105841103122", nama: "Nur Muhammad Ashman" },
+  { nim: "105841103322", nama: "Muhammad Faturrachman Iswan" },
+  { nim: "105841103422", nama: "Nurmisba" },
+  { nim: "105841103522", nama: "Alvian Syah Burhani" },
+  { nim: "105841103622", nama: "Majeri" },
+  { nim: "105841103722", nama: "Hamdani" },
+  { nim: "105841103822", nama: "Muliana" }
 ];
 
 export default function FontOrderingAssignment() {
-  const [inputStambuk, setInputStambuk] = useState('3');
-  const [currentStambuk, setCurrentStambuk] = useState(3);
+  // PERUBAHAN: State sekarang menggunakan NIM, bukan nomor urut
+  const [inputNim, setInputNim] = useState('105841102222');
+  const [currentNim, setCurrentNim] = useState('105841102222');
 
-  const [fontsLoaded] = useFonts({
-    // Font Statis
-    FiraCode_400Regular,
-    FiraCode_700Bold,
-    SourceSansPro_400Regular,
-    SourceSansPro_600SemiBold,
-    PlayfairDisplay_400Regular,
-    PlayfairDisplay_700Bold,
-    Merriweather_400Regular,
-    Merriweather_700Bold,
-    Lora_400Regular,
-    Lora_700Bold,
-    // Font Variabel - menggunakan weight files yang berbeda
-    Inter_300Light,
-    Inter_500Medium,
-    Inter_600SemiBold,
-    Inter_700Bold,
-    Inter_800ExtraBold,
-    Montserrat_300Light,
-    Montserrat_500Medium,
-    Montserrat_600SemiBold,
-    Montserrat_700Bold,
-    Montserrat_800ExtraBold,
-    OpenSans_300Light,
-    OpenSans_500Medium,
-    OpenSans_600SemiBold,
-    OpenSans_700Bold,
-    OpenSans_800ExtraBold,
-    Roboto_300Light,
-    Roboto_500Medium,
-    Roboto_700Bold,
-    Roboto_900Black,
-    Poppins_300Light,
-    Poppins_500Medium,
-    Poppins_600SemiBold,
-    Poppins_700Bold,
-    Poppins_800ExtraBold,
-  });
+  // Cari index mahasiswa berdasarkan NIM saat ini
+  const currentIndex = useMemo(() => 
+    mahasiswaRoster.findIndex(m => m.nim === currentNim), 
+    [currentNim]
+  );
 
-  // Mendapatkan 5 nama sebelum urutan stambuk
   const previousStudents = useMemo(() => {
+    if (currentIndex === -1) return [];
     const totalStudents = mahasiswaRoster.length;
-    const currentIndex = currentStambuk - 1;
     const results = [];
-    
     for (let i = 0; i < 5; i++) {
       const targetIndex = (currentIndex - 5 + i + totalStudents) % totalStudents;
       results.push(mahasiswaRoster[targetIndex]);
     }
-    
     return results;
-  }, [currentStambuk]);
+  }, [currentIndex]);
 
-  // Mendapatkan 5 nama setelah urutan stambuk
   const nextStudents = useMemo(() => {
+    if (currentIndex === -1) return [];
     const totalStudents = mahasiswaRoster.length;
-    const currentIndex = currentStambuk - 1;
     const results = [];
-    
     for (let i = 0; i < 5; i++) {
       const targetIndex = (currentIndex + 1 + i) % totalStudents;
       results.push(mahasiswaRoster[targetIndex]);
     }
-    
     return results;
-  }, [currentStambuk]);
+  }, [currentIndex]);
 
-  const selectedStudent = mahasiswaRoster[currentStambuk - 1];
+  const selectedStudent = mahasiswaRoster[currentIndex];
 
   const handleSearch = () => {
     Keyboard.dismiss();
-    const stambukNumber = parseInt(inputStambuk, 10);
-    
-    if (!isNaN(stambukNumber) && stambukNumber >= 1 && stambukNumber <= mahasiswaRoster.length) {
-      setCurrentStambuk(stambukNumber);
+    const foundStudent = mahasiswaRoster.find(m => m.nim === inputNim);
+    if (foundStudent) {
+      setCurrentNim(inputNim);
     } else {
-      // Menggunakan custom alert box atau modal akan lebih baik di produksi,
-      // tapi untuk tugas ini, alert() sudah cukup.
-      alert(`Silakan masukkan nomor antara 1 sampai ${mahasiswaRoster.length}`);
+      alert(`Mahasiswa dengan NIM ${inputNim} tidak ditemukan.`);
     }
   };
 
-  // Konfigurasi font statis (dengan weight yang berbeda)
-  const staticFontConfigs = [
-    { family: 'FiraCode_400Regular', weight: '400', name: 'Fira Code' },
-    { family: 'SourceSansPro_600SemiBold', weight: '600', name: 'Source Sans Pro' },
-    { family: 'PlayfairDisplay_700Bold', weight: '700', name: 'Playfair Display' },
-    { family: 'Merriweather_400Regular', weight: '400', name: 'Merriweather' },
-    { family: 'Lora_700Bold', weight: '700', name: 'Lora' },
-  ];
+  const staticFontConfigs = useMemo(() => [
+    { family: 'LatoRegular', name: 'Lato', weight: '400' },
+    { family: 'RobotoMedium', name: 'Roboto', weight: '500' },
+    { family: 'OpenSansRegular', name: 'Open Sans', weight: '400' },
+    { family: 'PoppinsBold', name: 'Poppins', weight: '700' },
+    { family: 'MerriweatherBold', name: 'Merriweather', weight: '700' },
+  ], []);
 
-  // Konfigurasi font variabel (menggunakan specific weight files)
-  const variableFontConfigs = [
-    { family: 'Inter_300Light', weightName: '300 Light', name: 'Inter' },
-    { family: 'Montserrat_500Medium', weightName: '500 Medium', name: 'Montserrat' },
-    { family: 'OpenSans_600SemiBold', weightName: '600 SemiBold', name: 'Open Sans' },
-    { family: 'Roboto_700Bold', weightName: '700 Bold', name: 'Roboto' },
-    { family: 'Poppins_800ExtraBold', weightName: '800 ExtraBold', name: 'Poppins' },
-  ];
-
-  // [FITUR TAMBAHAN] Membuat struktur data JSON untuk sistem penilaian
-  const assignmentData = useMemo(() => {
-    const staticFontAssignments = previousStudents.map((studentName, index) => ({
-      studentName,
-      fontName: staticFontConfigs[index].name,
-      fontWeight: staticFontConfigs[index].weight,
-      fontType: 'Statis',
-    }));
-
-    const variableFontAssignments = nextStudents.map((studentName, index) => ({
-      studentName,
-      fontName: variableFontConfigs[index].name,
-      fontWeight: variableFontConfigs[index].weightName,
-      fontType: 'Variabel',
-    }));
-
-    return {
-      selectedStudent: {
-        rosterNumber: currentStambuk,
-        name: selectedStudent,
-      },
-      fontAssignments: {
-        beforeSelected: staticFontAssignments,
-        afterSelected: variableFontAssignments,
-      },
-    };
-  }, [currentStambuk, selectedStudent, previousStudents, nextStudents]);
-
-
-  if (!fontsLoaded) {
-    return (
-      <View style={styles.loadingWrapper}>
-        <ActivityIndicator size="large" color="#4F46E5" />
-        <Text style={styles.loadingMessage}>Memuat font...</Text>
-      </View>
-    );
-  }
+  const variableFontConfigs = useMemo(() => [
+    { family: 'MulishVariable', name: 'Mulish', weight: '300' },
+    { family: 'NunitoSansVariable', name: 'Nunito Sans', weight: '500' },
+    { family: 'WorkSansVariable', name: 'Work Sans', weight: '600' },
+    { family: 'RubikVariable', name: 'Rubik', weight: '700' },
+    { family: 'OswaldVariable', name: 'Oswald', weight: '700' },
+  ], []);
 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <Text style={styles.headerTitle}>Tugas 4: Font & Urutan Mahasiswa</Text>
 
-        {/* Input Section */}
         <View style={styles.inputSection}>
           <TextInput
             style={styles.numberInput}
-            onChangeText={setInputStambuk}
-            value={inputStambuk}
-            placeholder="Nomor Urut"
+            onChangeText={setInputNim}
+            value={inputNim}
+            placeholder="Masukkan NIM"
             keyboardType="number-pad"
             placeholderTextColor="#6B7280"
           />
@@ -200,17 +129,11 @@ export default function FontOrderingAssignment() {
         {/* Font Statis Section */}
         <View style={styles.fontCategorySection}>
           <Text style={styles.categoryTitle}>🔤 5 Font Statis (Sebelumnya)</Text>
-          <Text style={styles.categoryDescription}>
-            Font dengan file terpisah untuk setiap weight
-          </Text>
-          
-          {previousStudents.map((studentName, index) => (
-            <View key={`static-${index}`} style={styles.studentCard}>
-              <Text style={[
-                styles.studentName,
-                { fontFamily: staticFontConfigs[index].family }
-              ]}>
-                {studentName}
+          <Text style={styles.categoryDescription}>Font dengan file terpisah untuk setiap weight</Text>
+          {previousStudents.map((student, index) => (
+            <View key={`static-${student.nim}`} style={styles.studentCard}>
+              <Text style={[styles.studentName, { fontFamily: staticFontConfigs[index].family }]}>
+                {student.nama}
               </Text>
               <View style={styles.fontInfoRow}>
                 <Text style={styles.fontInfo}>
@@ -222,30 +145,23 @@ export default function FontOrderingAssignment() {
           ))}
         </View>
 
-        {/* Target Student Section */}
         <View style={styles.targetStudentSection}>
-          <Text style={styles.targetLabel}>Mahasiswa Urutan Ke-{currentStambuk}</Text>
-          <Text style={styles.targetStudentName}>{selectedStudent}</Text>
+          <Text style={styles.targetLabel}>Mahasiswa dengan NIM {selectedStudent?.nim}</Text>
+          <Text style={styles.targetStudentName}>{selectedStudent?.nama}</Text>
         </View>
 
         {/* Font Variabel Section */}
         <View style={styles.fontCategorySection}>
           <Text style={styles.categoryTitle}>⚡ 5 Font Variabel (Setelahnya)</Text>
-          <Text style={styles.categoryDescription}>
-            Font dengan satu file mendukung banyak weight
-          </Text>
-          
-          {nextStudents.map((studentName, index) => (
-            <View key={`variable-${index}`} style={styles.studentCard}>
-              <Text style={[
-                styles.studentName,
-                { fontFamily: variableFontConfigs[index].family }
-              ]}>
-                {studentName}
+          <Text style={styles.categoryDescription}>Font dengan satu file mendukung banyak weight</Text>
+          {nextStudents.map((student, index) => (
+            <View key={`variable-${student.nim}`} style={styles.studentCard}>
+              <Text style={[styles.studentName, { fontFamily: variableFontConfigs[index].family, fontWeight: variableFontConfigs[index].weight as any }]}>
+                {student.nama}
               </Text>
               <View style={styles.fontInfoRow}>
                 <Text style={styles.fontInfo}>
-                  {variableFontConfigs[index].name} • Weight: {variableFontConfigs[index].weightName}
+                  {variableFontConfigs[index].name} • Weight: {variableFontConfigs[index].weight}
                 </Text>
                 <Text style={styles.fontTypeVariable}>VARIABEL</Text>
               </View>
@@ -253,25 +169,11 @@ export default function FontOrderingAssignment() {
           ))}
         </View>
 
-        {/* [FITUR TAMBAHAN] JSON Output Section */}
-        <View style={styles.fontCategorySection}>
-          <Text style={styles.categoryTitle}>📊 Struktur Data JSON (Untuk Penilaian)</Text>
-          <Text style={styles.categoryDescription}>
-            Output ini dihasilkan secara dinamis untuk diverifikasi oleh sistem.
-          </Text>
-          <View style={styles.jsonContainer}>
-            <Text style={styles.jsonText}>
-              {JSON.stringify(assignmentData, null, 2)}
-            </Text>
-          </View>
-        </View>
-
-        {/* Info Section */}
         <View style={styles.infoSection}>
           <Text style={styles.infoTitle}>📋 Informasi Urutan</Text>
           <Text style={styles.infoText}>
             • Total mahasiswa: {mahasiswaRoster.length}{'\n'}
-            • Urutan saat ini: {currentStambuk}{'\n'}
+            • NIM saat ini: {currentNim}{'\n'}
             • Sistem wrapping: Ya (otomatis ke awal/akhir)
           </Text>
         </View>
@@ -281,187 +183,26 @@ export default function FontOrderingAssignment() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F9FAFB',
-    paddingTop: StatusBar.currentHeight || 0,
-  },
-  scrollContainer: {
-    padding: 20,
-  },
-  loadingWrapper: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F9FAFB',
-  },
-  loadingMessage: {
-    marginTop: 12,
-    fontSize: 16,
-    color: '#6B7280',
-  },
-  headerTitle: {
-    fontSize: 28,
-    fontWeight: '700',
-    color: '#1F2937',
-    textAlign: 'center',
-    marginBottom: 30,
-    fontFamily: 'Merriweather_700Bold',
-  },
-  inputSection: {
-    flexDirection: 'row',
-    marginBottom: 30,
-    gap: 12,
-  },
-  numberInput: {
-    flex: 1,
-    height: 48,
-    backgroundColor: '#FFFFFF',
-    borderRadius: 12,
-    paddingHorizontal: 16,
-    fontSize: 16,
-    color: '#1F2937',
-    borderWidth: 2,
-    borderColor: '#E5E7EB',
-    fontFamily: 'FiraCode_400Regular',
-  },
-  searchButton: {
-    height: 48,
-    backgroundColor: '#4F46E5',
-    borderRadius: 12,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 24,
-    elevation: 2,
-    shadowColor: '#4F46E5',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-  },
-  searchButtonText: {
-    color: '#FFFFFF',
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  fontCategorySection: {
-    marginBottom: 25,
-  },
-  categoryTitle: {
-    fontSize: 22,
-    fontWeight: '700',
-    color: '#4F46E5',
-    marginBottom: 6,
-    fontFamily: 'SourceSansPro_600SemiBold',
-  },
-  categoryDescription: {
-    fontSize: 14,
-    color: '#6B7280',
-    marginBottom: 16,
-    fontStyle: 'italic',
-  },
-  studentCard: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 12,
-    borderWidth: 1,
-    borderColor: '#E5E7EB',
-    elevation: 1,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-  },
-  studentName: {
-    fontSize: 20,
-    color: '#1F2937',
-    marginBottom: 8,
-  },
-  fontInfoRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  fontInfo: {
-    fontSize: 12,
-    color: '#6B7280',
-    fontFamily: 'SourceSansPro_400Regular',
-  },
-  fontType: {
-    fontSize: 10,
-    color: '#059669',
-    backgroundColor: '#ECFDF5',
-    paddingHorizontal: 8,
-    paddingVertical: 2,
-    borderRadius: 4,
-    fontWeight: '600',
-  },
-  fontTypeVariable: {
-    fontSize: 10,
-    color: '#DC2626',
-    backgroundColor: '#FEF2F2',
-    paddingHorizontal: 8,
-    paddingVertical: 2,
-    borderRadius: 4,
-    fontWeight: '600',
-  },
-  targetStudentSection: {
-    marginVertical: 20,
-    padding: 24,
-    backgroundColor: '#1F2937',
-    borderRadius: 16,
-    alignItems: 'center',
-    elevation: 3,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.15,
-    shadowRadius: 6,
-    borderWidth: 2,
-    borderColor: '#374151'
-  },
-  targetLabel: {
-    fontSize: 14,
-    color: '#D1D5DB',
-    marginBottom: 8,
-    fontWeight: '500',
-  },
-  targetStudentName: {
-    fontSize: 26,
-    color: '#FFFFFF',
-    fontWeight: '700',
-    textAlign: 'center',
-    fontFamily: 'PlayfairDisplay_700Bold',
-  },
-  infoSection: {
-    marginTop: 20,
-    padding: 16,
-    backgroundColor: '#EFF6FF',
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: '#DBEAFE',
-  },
-  infoTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#1E40AF',
-    marginBottom: 8,
-  },
-  infoText: {
-    fontSize: 14,
-    color: '#374151',
-    lineHeight: 20,
-    fontFamily: 'SourceSansPro_400Regular',
-  },
-  // [STYLE BARU] untuk menampilkan blok JSON
-  jsonContainer: {
-    backgroundColor: '#111827', // Dark background
-    borderRadius: 8,
-    padding: 16,
-    marginTop: 8,
-  },
-  jsonText: {
-    color: '#E5E7EB', // Light text
-    fontFamily: 'FiraCode_400Regular', // Monospaced font
-    fontSize: 12,
-  },
+  container: { flex: 1, backgroundColor: '#F9FAFB', paddingTop: StatusBar.currentHeight || 0 },
+  scrollContainer: { padding: 20 },
+  headerTitle: { fontSize: 28, color: '#1F2937', textAlign: 'center', marginBottom: 30, fontFamily: 'MerriweatherBold', fontWeight: '700' },
+  inputSection: { flexDirection: 'row', marginBottom: 30, gap: 12 },
+  numberInput: { flex: 1, height: 48, backgroundColor: '#FFFFFF', borderRadius: 12, paddingHorizontal: 16, fontSize: 16, color: '#1F2937', borderWidth: 2, borderColor: '#E5E7EB', fontFamily: 'RobotoMedium' },
+  searchButton: { height: 48, backgroundColor: '#4F46E5', borderRadius: 12, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 24 },
+  searchButtonText: { color: '#FFFFFF', fontSize: 16, fontWeight: '600' },
+  fontCategorySection: { marginBottom: 25 },
+  categoryTitle: { fontSize: 22, color: '#4F46E5', marginBottom: 6, fontFamily: 'PoppinsBold', fontWeight: '700' },
+  categoryDescription: { fontSize: 14, color: '#6B7280', marginBottom: 16, fontStyle: 'italic' },
+  studentCard: { backgroundColor: '#FFFFFF', borderRadius: 12, padding: 16, marginBottom: 12, borderWidth: 1, borderColor: '#E5E7EB' },
+  studentName: { fontSize: 20, color: '#1F2937', marginBottom: 8 },
+  fontInfoRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+  fontInfo: { fontSize: 12, color: '#6B7280', fontFamily: 'OpenSansRegular' },
+  fontType: { fontSize: 10, color: '#059669', backgroundColor: '#ECFDF5', paddingHorizontal: 8, paddingVertical: 2, borderRadius: 4, fontWeight: '600' },
+  fontTypeVariable: { fontSize: 10, color: '#DC2626', backgroundColor: '#FEF2F2', paddingHorizontal: 8, paddingVertical: 2, borderRadius: 4, fontWeight: '600' },
+  targetStudentSection: { marginVertical: 20, padding: 24, backgroundColor: '#1F2937', borderRadius: 16, alignItems: 'center' },
+  targetLabel: { fontSize: 14, color: '#D1D5DB', marginBottom: 8, fontWeight: '500' },
+  targetStudentName: { fontSize: 26, color: '#FFFFFF', textAlign: 'center', fontFamily: 'MerriweatherBold', fontWeight: '700' },
+  infoSection: { marginTop: 20, padding: 16, backgroundColor: '#EFF6FF', borderRadius: 12, borderWidth: 1, borderColor: '#DBEAFE' },
+  infoTitle: { fontSize: 16, color: '#1E40AF', marginBottom: 8, fontFamily: 'PoppinsBold', fontWeight: '700' },
+  infoText: { fontSize: 14, color: '#374151', lineHeight: 20, fontFamily: 'LatoRegular' },
 });
