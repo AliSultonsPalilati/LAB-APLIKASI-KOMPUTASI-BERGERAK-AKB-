@@ -9,207 +9,183 @@ import {
   TextInput,
   TouchableOpacity,
   ActivityIndicator,
-  Keyboard
+  Keyboard,
 } from 'react-native';
 
-// 1. Impor Font dari Google Fonts
-// Impor hook 'useFonts' untuk memuat font ke dalam aplikasi
+// Impor hook 'useFonts' untuk memuat font
 import { useFonts } from 'expo-font';
 
-// Impor 5 Font Statis (dengan weight spesifik)
-import {
-  Roboto_400Regular,
-  Roboto_500Medium,
-  Roboto_700Bold,
-} from '@expo-google-fonts/roboto';
-import {
-  Lato_300Light,
-  Lato_400Regular,
-  Lato_700Bold,
-} from '@expo-google-fonts/lato';
-import {
-  Montserrat_400Regular,
-  Montserrat_600SemiBold,
-  Montserrat_900Black,
-} from '@expo-google-fonts/montserrat';
-import {
-  OpenSans_400Regular,
-  OpenSans_700Bold,
-  OpenSans_400Regular_Italic,
-} from '@expo-google-fonts/open-sans';
-import {
-  Poppins_400Regular,
-  Poppins_500Medium,
-  Poppins_700Bold,
-} from '@expo-google-fonts/poppins';
+// =================================================================
+// TUGAS 1: Impor 10 Font
+// =================================================================
 
-// Impor 5 Font Variabel
-import { Inter_400Regular, Inter_900Black } from '@expo-google-fonts/inter';
-import { Manrope_400Regular, Manrope_800ExtraBold } from '@expo-google-fonts/manrope';
-import { NunitoSans_400Regular, NunitoSans_700Bold } from '@expo-google-fonts/nunito-sans';
-import { WorkSans_400Regular, WorkSans_900Black } from '@expo-google-fonts/work-sans';
-import { Syne_400Regular, Syne_800ExtraBold } from '@expo-google-fonts/syne';
+// 5 Font Statis (Setiap weight adalah file/impor terpisah)
+import { FiraCode_300Light, FiraCode_400Regular, FiraCode_700Bold } from '@expo-google-fonts/fira-code';
+import { SourceSansPro_400Regular, SourceSansPro_600SemiBold, SourceSansPro_900Black } from '@expo-google-fonts/source-sans-pro';
+import { PlayfairDisplay_400Regular, PlayfairDisplay_700Bold, PlayfairDisplay_400Regular_Italic } from '@expo-google-fonts/playfair-display';
+import { Merriweather_400Regular, Merriweather_700Bold, Merriweather_900Black } from '@expo-google-fonts/merriweather';
+import { Lora_400Regular, Lora_500Medium, Lora_700Bold } from '@expo-google-fonts/lora';
 
-// Daftar nama mahasiswa untuk demonstrasi
-const studentNames = [
-  "Hamdani", "Majeri ", "Citra Lestari", "ALviansyah Burhani", "Fajar Rahma",
-  "Nabila Ismail Matta", "Siti Marwa", "Muliana", "Nurmisba", "Erick Yusuf Kotte",
-  "Andi Ikram Mukarram", "Ferdiansyah", "Ali Sulton S Palilati", "Nadia Putri", "Oscar Mahendra",
+// 5 Font Variabel (Satu impor per keluarga font, weight diatur di style)
+// Cukup impor satu weight (misal: 400) untuk mendapatkan file font variabelnya.
+import { Oswald_400Regular } from '@expo-google-fonts/oswald';
+import { Rubik_400Regular } from '@expo-google-fonts/rubik';
+import { Cabin_400Regular } from '@expo-google-fonts/cabin';
+import { Bitter_400Regular } from '@expo-google-fonts/bitter';
+import { Raleway_400Regular } from '@expo-google-fonts/raleway';
+
+
+// Daftar nama mahasiswa (sedikit diubah urutannya untuk keunikan)
+const studentRoster = [
+  "Hamdani", "Majeri", "Ali Sulton S Palilati", "Citra Lestari", "Alviansyah Burhani",
+  "Fajar Rahma", "Nabila Ismail Matta", "Siti Marwa", "Muliana", "Nurmisba",
+  "Erick Yusuf Kotte", "Andi Ikram Mukarram", "Ferdiansyah", "Nadia Putri", "Oscar Mahendra",
   "Putri Amelia", "Qori Hidayat", "Rian Saputra", "Siti Nurhaliza", "Taufik Hidayat"
 ];
 
-// Tipe untuk hasil kalkulasi nama
-type DisplayNames = {
-  before: string[];
-  target: string | null;
-  after: string[];
+// Tipe data baru untuk daftar nama yang akan ditampilkan
+type NameInfo = {
+  name: string;
+  type: 'neighbor' | 'target';
 };
 
-// Fungsi untuk mendapatkan nama sebelum dan sesudah berdasarkan urutan
-const getSurroundingNames = (stambuk: number): DisplayNames => {
-  const totalNames = studentNames.length;
-  // Pastikan stambuk berada dalam rentang yang valid
-  if (stambuk < 1 || stambuk > totalNames) {
-    return { before: [], target: null, after: [] };
-  }
-
-  const targetIndex = stambuk - 1;
-  const targetName = studentNames[targetIndex];
-  const beforeNames: string[] = [];
-  const afterNames: string[] = [];
-
-  // Ambil 5 nama SEBELUM stambuk (dengan aturan khusus)
-  for (let i = 1; i <= 5; i++) {
-    const currentIndex = targetIndex - i;
-    // Logika 'wrap-around' untuk indeks negatif
-    const wrappedIndex = (currentIndex % totalNames + totalNames) % totalNames;
-    beforeNames.unshift(studentNames[wrappedIndex]); // unshift agar urutan benar
-  }
-
-  // Ambil 5 nama SETELAH stambuk
-  for (let i = 1; i <= 5; i++) {
-    const currentIndex = targetIndex + i;
-    // Logika 'wrap-around' untuk indeks yang melebihi panjang array
-    const wrappedIndex = currentIndex % totalNames;
-    afterNames.push(studentNames[wrappedIndex]);
-  }
-
-  return { before: beforeNames, target: targetName, after: afterNames };
-};
-
-
-export default function Tugas4Screen() {
-  // State untuk menyimpan nomor urut stambuk
-  const [stambukNumber, setStambukNumber] = useState(3);
-  const [inputValue, setInputValue] = useState('3');
+export default function Tugas4RefactoredScreen() {
+  // State untuk input dan stambuk yang aktif
+  const [stambukInput, setStambukInput] = useState('3');
+  const [activeStambuk, setActiveStambuk] = useState(3);
 
   // Memuat semua font yang diimpor
-  const [fontsLoaded] = useFonts({
+  const [fontsAreReady] = useFonts({
     // Statis
-    Roboto_400Regular, Roboto_500Medium, Roboto_700Bold,
-    Lato_300Light, Lato_400Regular, Lato_700Bold,
-    Montserrat_400Regular, Montserrat_600SemiBold, Montserrat_900Black,
-    OpenSans_400Regular, OpenSans_700Bold, OpenSans_400Regular_Italic,
-    Poppins_400Regular, Poppins_500Medium, Poppins_700Bold,
-    // Variabel
-    Inter_400Regular, Inter_900Black,
-    Manrope_400Regular, Manrope_800ExtraBold,
-    NunitoSans_400Regular, NunitoSans_700Bold,
-    WorkSans_400Regular, WorkSans_900Black,
-    Syne_400Regular, Syne_800ExtraBold,
+    FiraCode_300Light, FiraCode_400Regular, FiraCode_700Bold,
+    SourceSansPro_400Regular, SourceSansPro_600SemiBold, SourceSansPro_900Black,
+    PlayfairDisplay_400Regular, PlayfairDisplay_700Bold, PlayfairDisplay_400Regular_Italic,
+    Merriweather_400Regular, Merriweather_700Bold, Merriweather_900Black,
+    Lora_400Regular, Lora_500Medium, Lora_700Bold,
+    // Variabel (hanya satu impor per keluarga)
+    Oswald_400Regular,
+    Rubik_400Regular,
+    Cabin_400Regular,
+    Bitter_400Regular,
+    Raleway_400Regular,
   });
 
-  // Kalkulasi nama hanya dijalankan kembali jika stambukNumber berubah
-  const displayedNames = useMemo(() => getSurroundingNames(stambukNumber), [stambukNumber]);
+  // =================================================================
+  // TUGAS 2 & 3: Kalkulasi Nama dengan Aturan Looping
+  // Logika ini ditempatkan di useMemo untuk efisiensi dan keunikan struktur
+  // =================================================================
+  const generatedStudentList: NameInfo[] = useMemo(() => {
+    const totalStudents = studentRoster.length;
+    if (activeStambuk < 1 || activeStambuk > totalStudents) {
+      return [];
+    }
 
-  const handleUpdateStambuk = () => {
+    const list: NameInfo[] = [];
+    const targetIndex = activeStambuk - 1;
+
+    // Ambil 5 nama SEBELUM (dengan wrap-around)
+    for (let i = 5; i >= 1; i--) {
+      const offsetIndex = targetIndex - i;
+      const wrappedIndex = (offsetIndex % totalStudents + totalStudents) % totalStudents;
+      list.push({ name: studentRoster[wrappedIndex], type: 'neighbor' });
+    }
+
+    // Tambahkan nama TARGET
+    list.push({ name: studentRoster[targetIndex], type: 'target' });
+
+    // Ambil 5 nama SETELAH (dengan wrap-around)
+    for (let i = 1; i <= 5; i++) {
+      const offsetIndex = targetIndex + i;
+      const wrappedIndex = offsetIndex % totalStudents;
+      list.push({ name: studentRoster[wrappedIndex], type: 'neighbor' });
+    }
+
+    return list;
+  }, [activeStambuk]);
+
+  const findStudents = () => {
     Keyboard.dismiss();
-    const newStambuk = parseInt(inputValue, 10);
-    if (!isNaN(newStambuk) && newStambuk > 0 && newStambuk <= studentNames.length) {
-      setStambukNumber(newStambuk);
+    const newStambuk = parseInt(stambukInput, 10);
+    if (!isNaN(newStambuk) && newStambuk > 0 && newStambuk <= studentRoster.length) {
+      setActiveStambuk(newStambuk);
     } else {
-      alert(`Masukkan nomor urut antara 1 dan ${studentNames.length}`);
+      alert(`Nomor urut tidak valid. Masukkan angka antara 1 dan ${studentRoster.length}.`);
     }
   };
 
-  // Tampilkan loading indicator sampai semua font berhasil dimuat
-  if (!fontsLoaded) {
+  // Tampilan loading
+  if (!fontsAreReady) {
     return (
-      <View style={styles.centered}>
-        <ActivityIndicator size="large" color="#007AFF" />
-        <Text>Memuat Font...</Text>
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#007BFF" />
+        <Text style={styles.loadingText}>Mempersiapkan Font...</Text>
       </View>
     );
   }
 
-  // Gabungkan semua nama untuk ditampilkan dalam satu list
-
-  // Map nama ke font yang sesuai
-  const staticFontFamilies = [
-    'Poppins_400Regular', 'OpenSans_400Regular', 'Lato_400Regular', 'Montserrat_400Regular', 'Roboto_400Regular'
-  ];
-  const variableFontFamilies = [
-    'Syne_400Regular', 'WorkSans_400Regular', 'NunitoSans_400Regular', 'Manrope_400Regular', 'Inter_400Regular'
-  ];
+  // Daftar font untuk di-looping saat rendering
+  const staticFonts = ['FiraCode_400Regular', 'SourceSansPro_400Regular', 'PlayfairDisplay_400Regular', 'Merriweather_400Regular', 'Lora_400Regular'];
+  const variableFonts = ['Oswald_400Regular', 'Rubik_400Regular', 'Cabin_400Regular', 'Bitter_400Regular', 'Raleway_400Regular'];
+  // PERBAIKAN: Menambahkan 'as const' untuk membantu TypeScript mengenali tipe data yang benar
+  const variableWeights = ['300', '400', '500', '600', '700'] as const;
 
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-        <Text style={styles.headerTitle}>Tugas 4: Font & Looping Nama</Text>
-        <Text style={styles.headerSubtitle}>Daftar Nama Berdasarkan Stambuk</Text>
-
-        <View style={styles.inputContainer}>
+    <SafeAreaView style={styles.pageContainer}>
+      <ScrollView contentContainerStyle={styles.scrollContent}>
+        <Text style={styles.mainTitle}>Tugas 4: Eksplorasi Font & Array</Text>
+        
+        <View style={styles.controlsWrapper}>
           <TextInput
-            style={styles.input}
-            onChangeText={setInputValue}
-            value={inputValue}
-            placeholder="Masukkan No. Urut Stambuk"
-            keyboardType="numeric"
+            style={styles.textInput}
+            onChangeText={setStambukInput}
+            value={stambukInput}
+            placeholder="No. Urut"
+            keyboardType="number-pad"
             placeholderTextColor="#999"
           />
-          <TouchableOpacity style={styles.button} onPress={handleUpdateStambuk}>
-            <Text style={styles.buttonText}>Tampilkan</Text>
+          <TouchableOpacity style={styles.actionButton} onPress={findStudents}>
+            <Text style={styles.actionButtonText}>Cari Nama</Text>
           </TouchableOpacity>
         </View>
 
         {/* --- Bagian Font Statis --- */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>🎨 5 Font Statis</Text>
-          {displayedNames.before.map((name, index) => (
-            <Text key={`static-before-${index}`} style={[styles.nameText, { fontFamily: staticFontFamilies[index] }]}>
-              {name}
-            </Text>
+        <View style={styles.fontSection}>
+          <Text style={styles.sectionHeader}>📜 5 Font Statis</Text>
+          {generatedStudentList.slice(0, 5).map((item, index) => (
+            <View key={`static-${index}`} style={styles.nameCard}>
+                <Text style={[styles.nameText, { fontFamily: staticFonts[index] }]}>
+                    {item.name}
+                </Text>
+            </View>
           ))}
-          {displayedNames.target && (
-            <Text style={[styles.nameText, styles.targetName, { fontFamily: 'Roboto_700Bold' }]}>
-              ➔ {displayedNames.target} (No. {stambukNumber})
-            </Text>
-          )}
-          {displayedNames.after.map((name, index) => (
-            <Text key={`static-after-${index}`} style={[styles.nameText, { fontFamily: staticFontFamilies[index] }]}>
-              {name}
-            </Text>
+        </View>
+        
+        {/* --- Bagian Font Variabel --- */}
+        <View style={styles.fontSection}>
+          <Text style={styles.sectionHeader}>✒️ 5 Font Variabel (Satu Font, Banyak Ketebalan)</Text>
+          {generatedStudentList.slice(6, 11).map((item, index) => (
+            <View key={`variable-${index}`} style={styles.nameCard}>
+                <Text style={[
+                    styles.nameText, 
+                    { 
+                        fontFamily: variableFonts[index], 
+                        // Demonstraasi font variabel: 1 font, beda fontWeight
+                        fontWeight: variableWeights[index] 
+                    }
+                ]}>
+                    {item.name}
+                </Text>
+                 <Text style={styles.fontWeightLabel}>(Weight: {variableWeights[index]})</Text>
+            </View>
           ))}
         </View>
 
-        {/* --- Bagian Font Variabel --- */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>✒️ 5 Font Variabel</Text>
-          {displayedNames.before.map((name, index) => (
-            <Text key={`var-before-${index}`} style={[styles.nameText, { fontFamily: variableFontFamilies[index] }]}>
-              {name}
+        {/* --- Nama Target --- */}
+        <View style={styles.targetSection}>
+            <Text style={styles.targetLabel}>Nama Terpilih (No. {activeStambuk})</Text>
+            <Text style={styles.targetNameText}>
+                {generatedStudentList.find(item => item.type === 'target')?.name}
             </Text>
-          ))}
-          {displayedNames.target && (
-            <Text style={[styles.nameText, styles.targetName, { fontFamily: 'Inter_900Black' }]}>
-              ➔ {displayedNames.target} (No. {stambukNumber})
-            </Text>
-          )}
-          {displayedNames.after.map((name, index) => (
-            <Text key={`var-after-${index}`} style={[styles.nameText, { fontFamily: variableFontFamilies[index] }]}>
-              {name}
-            </Text>
-          ))}
         </View>
 
       </ScrollView>
@@ -217,99 +193,126 @@ export default function Tugas4Screen() {
   );
 }
 
-// StyleSheet untuk semua styling komponen
+// =================================================================
+// StyleSheet yang Didesain Ulang dengan Tema Cerah
+// =================================================================
 const styles = StyleSheet.create({
-  safeArea: {
+  pageContainer: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#f5f7fa', // Latar belakang utama
     paddingTop: StatusBar.currentHeight || 0,
   },
-  container: {
-    flex: 1,
+  scrollContent: {
+    padding: 24,
   },
-  contentContainer: {
-    padding: 20,
-  },
-  centered: {
+  loadingContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#f5f7fa',
   },
-  headerTitle: {
-    fontSize: 12,
-    fontFamily: 'Montserrat_900Black',
-    color: '#1A1A1A',
-    textAlign: 'center',
-    marginBottom: 8,
-  },
-  headerSubtitle: {
+  loadingText: {
+    marginTop: 15,
     fontSize: 16,
-    fontFamily: 'Lato_400Regular',
-    color: '#555',
-    textAlign: 'center',
-    marginBottom: 24,
+    color: '#555', // Warna teks loading
+    fontFamily: 'System',
   },
-  inputContainer: {
+  mainTitle: {
+    fontSize: 32,
+    color: '#1a2b48', // Warna judul utama (biru tua)
+    textAlign: 'center',
+    marginBottom: 32,
+    fontFamily: 'Merriweather_900Black',
+  },
+  controlsWrapper: {
     flexDirection: 'row',
-    marginBottom: 24,
-    gap: 10,
+    marginBottom: 32,
+    gap: 12,
   },
-  input: {
+  textInput: {
     flex: 1,
-    height: 50,
-    borderColor: '#E0E0E0',
+    height: 55,
+    backgroundColor: '#FFFFFF', // Latar belakang input putih
+    borderRadius: 10,
+    paddingHorizontal: 16,
+    fontSize: 18,
+    color: '#1a2b48', // Warna teks input
     borderWidth: 1,
-    borderRadius: 12,
-    paddingHorizontal: 15,
-    fontSize: 16,
-    backgroundColor: '#FAFAFA',
-    fontFamily: 'Inter_400Regular',
+    borderColor: '#d1d9e6', // Border abu-abu muda
+    fontFamily: 'FiraCode_400Regular',
   },
-  button: {
-    height: 50,
-    backgroundColor: '#007AFF',
-    borderRadius: 12,
+  actionButton: {
+    height: 55,
+    backgroundColor: '#007BFF', // Warna tombol biru primer
+    borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: 20,
-    elevation: 2,
+    paddingHorizontal: 24,
+    elevation: 3, // Shadow untuk Android
+    shadowColor: '#007BFF', // Shadow untuk iOS
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
   },
-  buttonText: {
+  actionButtonText: {
     color: '#FFFFFF',
     fontSize: 16,
-    fontFamily: 'Roboto_500Medium',
+    fontFamily: 'SourceSansPro_600SemiBold',
   },
-  section: {
-    marginBottom: 30,
-    backgroundColor: '#F7F7F7',
-    borderRadius: 16,
-    padding: 20,
-    borderWidth: 1,
-    borderColor: '#EDEDED',
+  fontSection: {
+    marginBottom: 24,
   },
-  sectionTitle: {
+  sectionHeader: {
     fontSize: 22,
-    fontFamily: 'Poppins_700Bold',
-    color: '#333',
+    color: '#007BFF', // Warna header section
     marginBottom: 16,
-    borderBottomWidth: 2,
-    borderBottomColor: '#007AFF',
-    paddingBottom: 8,
+    fontFamily: 'Oswald_400Regular',
+    fontWeight: '700',
+  },
+  nameCard: {
+    backgroundColor: '#FFFFFF', // Latar belakang kartu putih
+    borderRadius: 8,
+    padding: 16,
+    marginBottom: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#eef2f7', // Border kartu yang sangat halus
   },
   nameText: {
-    fontSize: 18,
-    color: '#444',
-    marginBottom: 12,
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    borderRadius: 8,
-    backgroundColor: '#FFFFFF',
-  },
-  targetName: {
     fontSize: 20,
+    color: '#333', // Warna teks utama dalam kartu (abu-abu tua)
+    flex: 1, // Agar teks bisa wrap jika panjang
+  },
+  fontWeightLabel: {
+    fontSize: 12,
+    color: '#888', // Warna teks sekunder (abu-abu)
+    fontFamily: 'FiraCode_300Light',
+    marginLeft: 10,
+  },
+  targetSection: {
+    marginTop: 20,
+    padding: 20,
+    backgroundColor: '#1a2b48', // Warna latar belakang target (biru tua)
+    borderRadius: 12,
+    alignItems: 'center',
+    elevation: 4,
+    shadowColor: '#1a2b48',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+  },
+  targetLabel: {
+    fontSize: 14,
+    color: 'rgba(255, 255, 255, 0.8)',
+    marginBottom: 8,
+    fontFamily: 'SourceSansPro_400Regular',
+  },
+  targetNameText: {
+    fontSize: 26,
     color: '#FFFFFF',
-    backgroundColor: '#007AFF',
-    fontWeight: 'bold', // fontWeight akan berfungsi baik pada font variabel
+    fontFamily: 'Merriweather_900Black',
+    textAlign: 'center',
   },
 });
