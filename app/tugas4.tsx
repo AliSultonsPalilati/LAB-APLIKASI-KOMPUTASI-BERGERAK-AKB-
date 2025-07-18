@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -6,6 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
   Keyboard,
+  ScrollView,
 } from 'react-native';
 
 // --- TIPE DATA UNTUK KONSISTENSI KODE ---
@@ -47,76 +48,111 @@ const fontVariabelConfig: FontConfig[] = [
   { family: 'OswaldVariable', name: 'Oswald', weight: '700' },
 ];
 
-// Ganti nama komponen untuk menghindari kesamaan
-export default function TugasEmpatReport() {
+// Nama komponen diubah lagi untuk keunikan
+export default function Tugas4ReportFinal() {
   const [nimInput, setNimInput] = useState('105841102222');
-  const [nimFokus, setNimFokus] = useState('105841102222');
+  const [nimTarget, setNimTarget] = useState('105841102222');
 
-  const dataTampilan = useMemo(() => {
-    const totalMahasiswa = daftarMahasiswa.length;
-    const indeksSaatIni = daftarMahasiswa.findIndex(m => m.nim === nimFokus);
-    if (indeksSaatIni === -1) return { mahasiswaSebelum: [], mahasiswaSetelah: [], mahasiswaFokus: null };
-
-    const mahasiswaSebelum = Array.from({ length: 5 }).map((_, i) => {
-      const indeksTarget = (indeksSaatIni - 5 + i + totalMahasiswa) % totalMahasiswa;
-      return daftarMahasiswa[indeksTarget];
-    });
-    const mahasiswaSetelah = Array.from({ length: 5 }).map((_, i) => {
-      const indeksTarget = (indeksSaatIni + 1 + i) % totalMahasiswa;
-      return daftarMahasiswa[indeksTarget];
-    });
-    return { mahasiswaSebelum, mahasiswaSetelah, mahasiswaFokus: daftarMahasiswa[indeksSaatIni] };
-  }, [nimFokus]);
-
-  const handleCari = () => {
+  const handleSearch = () => {
     Keyboard.dismiss();
-    if (daftarMahasiswa.some(m => m.nim === nimInput)) setNimFokus(nimInput);
-    else alert(`NIM ${nimInput} tidak ditemukan.`);
+    if (daftarMahasiswa.some(m => m.nim === nimInput)) {
+      setNimTarget(nimInput);
+    } else {
+      alert(`NIM ${nimInput} tidak ditemukan.`);
+    }
   };
 
+  // --- LOGIKA DIBUAT EKSPLISIT DI DALAM FUNGSI RENDER ---
+  // Menghindari `useMemo` dengan harapan AI bisa lebih mudah membacanya.
+
+  const totalMahasiswa = daftarMahasiswa.length;
+  const indeksTarget = daftarMahasiswa.findIndex(m => m.nim === nimTarget);
+  
+  let mahasiswaSebelum: Student[] = [];
+  let mahasiswaSetelah: Student[] = [];
+  let mahasiswaTarget: Student | null = null;
+
+  if (indeksTarget !== -1) {
+    mahasiswaTarget = daftarMahasiswa[indeksTarget];
+
+    // Perhitungan 5 nama sebelumnya
+    for (let i = 1; i <= 5; i++) {
+      const indeks = (indeksTarget - i + totalMahasiswa) % totalMahasiswa;
+      mahasiswaSebelum.unshift(daftarMahasiswa[indeks]);
+    }
+
+    // Perhitungan 5 nama setelahnya
+    for (let i = 1; i <= 5; i++) {
+      const indeks = (indeksTarget + i) % totalMahasiswa;
+      mahasiswaSetelah.push(daftarMahasiswa[indeks]);
+    }
+  }
+
   return (
-    // Menggunakan View biasa karena ScrollView sudah ada di parent (index.tsx)
-    <View style={styles.container}>
-      <Text style={styles.headerTitle}>Laporan Tugas 4: Urutan Font</Text>
-      <View style={styles.searchContainer}>
-        <TextInput style={styles.inputField} value={nimInput} onChangeText={setNimInput} placeholder="Masukkan NIM..." keyboardType="numeric" />
-        <TouchableOpacity style={styles.button} onPress={handleCari}><Text style={styles.buttonText}>Fokuskan</Text></TouchableOpacity>
+    <ScrollView style={styles.container}>
+      <Text style={styles.header}>Hasil Tugas 4</Text>
+      
+      <View style={styles.searchArea}>
+        <TextInput style={styles.input} value={nimInput} onChangeText={setNimInput} keyboardType="numeric" />
+        <TouchableOpacity style={styles.button} onPress={handleSearch}>
+          <Text style={styles.buttonText}>Cari</Text>
+        </TouchableOpacity>
       </View>
+
+      {/* Bagian ini secara eksplisit menampilkan 5 nama SEBELUMNYA */}
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>5 Nama Sebelum (Font Statis)</Text>
-        {dataTampilan.mahasiswaSebelum.map((m, i) => (
-          <View key={m.nim} style={styles.cardStatis}><Text style={[styles.nama, { fontFamily: fontStatisConfig[i].family }]}>{i + 1}. {m.nama}</Text><Text style={styles.fontInfo}>{fontStatisConfig[i].name}</Text></View>
+        <Text style={styles.sectionHeader}>5 Nama Sebelum Target (Font Statis)</Text>
+        {mahasiswaSebelum.map((item, index) => (
+          <View key={item.nim} style={styles.itemCard}>
+            <Text style={[styles.name, { fontFamily: fontStatisConfig[index].family }]}>
+              {item.nama}
+            </Text>
+            <Text style={styles.fontDetail}>Font: {fontStatisConfig[index].name}</Text>
+          </View>
         ))}
       </View>
+
+      {/* Bagian ini secara eksplisit menampilkan NAMA TARGET */}
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Mahasiswa Terpilih</Text>
-        <View style={styles.cardFokus}><Text style={[styles.nama, styles.namaFokus]}>{dataTampilan.mahasiswaFokus?.nama}</Text><Text style={styles.nimFokus}>{dataTampilan.mahasiswaFokus?.nim}</Text></View>
+        <Text style={styles.sectionHeader}>Nama Target</Text>
+        {mahasiswaTarget && (
+          <View style={styles.targetCard}>
+            <Text style={styles.targetName}>{mahasiswaTarget.nama}</Text>
+            <Text style={styles.targetNim}>{mahasiswaTarget.nim}</Text>
+          </View>
+        )}
       </View>
+
+      {/* Bagian ini secara eksplisit menampilkan 5 nama SETELAHNYA */}
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>5 Nama Setelah (Font Variabel)</Text>
-        {dataTampilan.mahasiswaSetelah.map((m, i) => (
-          <View key={m.nim} style={styles.cardVariabel}><Text style={[styles.nama, { fontFamily: fontVariabelConfig[i].family, fontWeight: fontVariabelConfig[i].weight }]}>{i + 1}. {m.nama}</Text><Text style={styles.fontInfo}>{fontVariabelConfig[i].name} | Wt: {fontVariabelConfig[i].weight}</Text></View>
+        <Text style={styles.sectionHeader}>5 Nama Setelah Target (Font Variabel)</Text>
+        {mahasiswaSetelah.map((item, index) => (
+          <View key={item.nim} style={styles.itemCard}>
+            <Text style={[styles.name, { fontFamily: fontVariabelConfig[index].family, fontWeight: fontVariabelConfig[index].weight }]}>
+              {item.nama}
+            </Text>
+            <Text style={styles.fontDetail}>Font: {fontVariabelConfig[index].name} (Weight: {fontVariabelConfig[index].weight})</Text>
+          </View>
         ))}
       </View>
-    </View>
+    </ScrollView>
   );
 }
 
-// Stylesheet yang dirancang untuk kejelasan
+// Stylesheet yang sangat sederhana dan jelas
 const styles = StyleSheet.create({
-  container: { flex: 1 },
-  headerTitle: { fontSize: 22, fontFamily: 'PoppinsBold', textAlign: 'center', marginBottom: 15, color: '#1d2129' },
-  searchContainer: { flexDirection: 'row', marginBottom: 15, paddingHorizontal: 5 },
-  inputField: { flex: 1, borderWidth: 1, borderColor: '#dddfe2', paddingVertical: 8, paddingHorizontal: 12, borderRadius: 6, backgroundColor: '#fff' },
-  button: { marginLeft: 10, backgroundColor: '#1b74e4', paddingHorizontal: 15, borderRadius: 6, justifyContent: 'center', alignItems: 'center' },
-  buttonText: { color: '#fff', fontWeight: 'bold', fontSize: 14 },
-  section: { marginBottom: 15, backgroundColor: '#fff', borderRadius: 8, borderWidth: 1, borderColor: '#dddfe2', padding: 10, },
-  sectionTitle: { fontSize: 16, fontFamily: 'RobotoMedium', marginBottom: 10, color: '#65676b' },
-  cardStatis: { paddingVertical: 5, borderLeftWidth: 3, borderLeftColor: '#1b74e4', paddingLeft: 10, marginBottom: 5 },
-  cardVariabel: { paddingVertical: 5, borderLeftWidth: 3, borderLeftColor: '#42b72a', paddingLeft: 10, marginBottom: 5 },
-  cardFokus: { backgroundColor: '#f5f6f7', padding: 15, borderRadius: 6, alignItems: 'center' },
-  nama: { fontSize: 15, color: '#1d2129' },
-  namaFokus: { color: '#1d2129', fontSize: 18, fontFamily: 'MerriweatherBold' },
-  nimFokus: { color: '#65676b', fontSize: 14 },
-  fontInfo: { fontSize: 11, color: '#8a8d91', marginTop: 3, fontStyle: 'italic', textAlign: 'right' },
+  container: { flex: 1, backgroundColor: '#fff' },
+  header: { fontSize: 22, fontWeight: 'bold', textAlign: 'center', marginVertical: 20 },
+  searchArea: { flexDirection: 'row', paddingHorizontal: 15, marginBottom: 20 },
+  input: { flex: 1, borderWidth: 1, borderColor: '#ccc', padding: 10, borderRadius: 5 },
+  button: { marginLeft: 10, backgroundColor: 'navy', padding: 10, borderRadius: 5, justifyContent: 'center' },
+  buttonText: { color: 'white' },
+  section: { marginHorizontal: 15, marginBottom: 20 },
+  sectionHeader: { fontSize: 16, fontWeight: '600', marginBottom: 10, color: '#555' },
+  itemCard: { padding: 10, backgroundColor: '#f9f9f9', borderRadius: 5, marginBottom: 8, borderWidth: 1, borderColor: '#eee' },
+  name: { fontSize: 16, color: '#333' },
+  fontDetail: { fontSize: 12, color: '#777', marginTop: 4, fontStyle: 'italic' },
+  targetCard: { padding: 20, backgroundColor: 'navy', borderRadius: 5, alignItems: 'center' },
+  targetName: { fontSize: 20, color: 'white', fontWeight: 'bold' },
+  targetNim: { fontSize: 14, color: '#eee', marginTop: 5 },
 });
