@@ -6,25 +6,14 @@ import {
   TextInput,
   TouchableOpacity,
   Keyboard,
-  ScrollView,
 } from 'react-native';
 
 // --- TIPE DATA UNTUK KONSISTENSI KODE ---
 type FontWeight = "normal" | "bold" | "100" | "200" | "300" | "400" | "500" | "600" | "700" | "800" | "900";
-
-type FontConfig = {
-  family: string;
-  name: string;
-  weight: FontWeight;
-};
-
-type Student = {
-  nim: string;
-  nama: string;
-};
+type FontConfig = { family: string; name: string; weight: FontWeight; };
+type Student = { nim: string; nama: string; };
 
 // --- DATA & KONFIGURASI FONT (SESUAI PERSYARATAN) ---
-// 1. Daftar mahasiswa lengkap dan sudah terurut
 const daftarMahasiswa: Student[] = [
   { nim: "105841100119", nama: "Muhammad Yusuf" }, { nim: "105841100122", nama: "Siti Marwa" },
   { nim: "105841100322", nama: "Fajar Eka Alamsyah" }, { nim: "105841100422", nama: "Ferdiansyah" },
@@ -42,7 +31,6 @@ const daftarMahasiswa: Student[] = [
   { nim: "105841109219", nama: "Muh. Asdar" }, { nim: "105841109820", nama: "Muh. Ashabul Khahfi" },
 ];
 
-// 2. Definisi 5 FONT STATIS yang akan digunakan
 const fontStatisConfig: FontConfig[] = [
   { family: 'LatoRegular', name: 'Lato', weight: '400' },
   { family: 'RobotoMedium', name: 'Roboto', weight: '500' },
@@ -51,7 +39,6 @@ const fontStatisConfig: FontConfig[] = [
   { family: 'MerriweatherBold', name: 'Merriweather', weight: '700' },
 ];
 
-// 3. Definisi 5 FONT VARIABEL yang akan digunakan
 const fontVariabelConfig: FontConfig[] = [
   { family: 'MulishVariable', name: 'Mulish', weight: '300' },
   { family: 'NunitoSansVariable', name: 'Nunito Sans', weight: '500' },
@@ -60,120 +47,76 @@ const fontVariabelConfig: FontConfig[] = [
   { family: 'OswaldVariable', name: 'Oswald', weight: '700' },
 ];
 
-// --- KOMPONEN UTAMA ---
-export default function TugasEmpatFinal() {
+// Ganti nama komponen untuk menghindari kesamaan
+export default function TugasEmpatReport() {
   const [nimInput, setNimInput] = useState('105841102222');
   const [nimFokus, setNimFokus] = useState('105841102222');
 
   const dataTampilan = useMemo(() => {
-    // Implementasi Aturan Khusus Urutan (Wrapping) dengan Modulo
     const totalMahasiswa = daftarMahasiswa.length;
     const indeksSaatIni = daftarMahasiswa.findIndex(m => m.nim === nimFokus);
-
-    if (indeksSaatIni === -1) {
-      return { mahasiswaSebelum: [], mahasiswaSetelah: [], mahasiswaFokus: null };
-    }
+    if (indeksSaatIni === -1) return { mahasiswaSebelum: [], mahasiswaSetelah: [], mahasiswaFokus: null };
 
     const mahasiswaSebelum = Array.from({ length: 5 }).map((_, i) => {
       const indeksTarget = (indeksSaatIni - 5 + i + totalMahasiswa) % totalMahasiswa;
       return daftarMahasiswa[indeksTarget];
     });
-
     const mahasiswaSetelah = Array.from({ length: 5 }).map((_, i) => {
       const indeksTarget = (indeksSaatIni + 1 + i) % totalMahasiswa;
       return daftarMahasiswa[indeksTarget];
     });
-
-    return {
-      mahasiswaSebelum,
-      mahasiswaSetelah,
-      mahasiswaFokus: daftarMahasiswa[indeksSaatIni],
-    };
+    return { mahasiswaSebelum, mahasiswaSetelah, mahasiswaFokus: daftarMahasiswa[indeksSaatIni] };
   }, [nimFokus]);
 
   const handleCari = () => {
     Keyboard.dismiss();
-    if (daftarMahasiswa.some(m => m.nim === nimInput)) {
-      setNimFokus(nimInput);
-    } else {
-      alert(`NIM ${nimInput} tidak ditemukan dalam daftar.`);
-    }
+    if (daftarMahasiswa.some(m => m.nim === nimInput)) setNimFokus(nimInput);
+    else alert(`NIM ${nimInput} tidak ditemukan.`);
   };
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-      <Text style={styles.headerTitle}>Tugas 4: Urutan Font Mahasiswa</Text>
-      
-      {/* Kontrol Pencarian */}
+    // Menggunakan View biasa karena ScrollView sudah ada di parent (index.tsx)
+    <View style={styles.container}>
+      <Text style={styles.headerTitle}>Laporan Tugas 4: Urutan Font</Text>
       <View style={styles.searchContainer}>
-        <TextInput
-          style={styles.inputField}
-          value={nimInput}
-          onChangeText={setNimInput}
-          placeholder="Masukkan NIM..."
-          keyboardType="numeric"
-        />
-        <TouchableOpacity style={styles.button} onPress={handleCari}>
-          <Text style={styles.buttonText}>Cari NIM</Text>
-        </TouchableOpacity>
+        <TextInput style={styles.inputField} value={nimInput} onChangeText={setNimInput} placeholder="Masukkan NIM..." keyboardType="numeric" />
+        <TouchableOpacity style={styles.button} onPress={handleCari}><Text style={styles.buttonText}>Fokuskan</Text></TouchableOpacity>
       </View>
-
-      {/* Menampilkan 5 nama SEBELUMNYA dengan 5 FONT STATIS BERBEDA */}
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>5 Nama Sebelum NIM Fokus (Font Statis)</Text>
-        {dataTampilan.mahasiswaSebelum.map((mahasiswa, index) => (
-          <View key={mahasiswa.nim} style={styles.cardStatis}>
-            <Text style={[styles.nama, { fontFamily: fontStatisConfig[index].family }]}>
-              {index + 1}. {mahasiswa.nama}
-            </Text>
-            <Text style={styles.fontInfo}>{fontStatisConfig[index].name} (Statis)</Text>
-          </View>
+        <Text style={styles.sectionTitle}>5 Nama Sebelum (Font Statis)</Text>
+        {dataTampilan.mahasiswaSebelum.map((m, i) => (
+          <View key={m.nim} style={styles.cardStatis}><Text style={[styles.nama, { fontFamily: fontStatisConfig[i].family }]}>{i + 1}. {m.nama}</Text><Text style={styles.fontInfo}>{fontStatisConfig[i].name}</Text></View>
         ))}
       </View>
-
-      {/* Menampilkan Mahasiswa yang menjadi FOKUS */}
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Mahasiswa Fokus</Text>
-        <View style={styles.cardFokus}>
-          <Text style={[styles.nama, styles.namaFokus]}>
-            {dataTampilan.mahasiswaFokus?.nama}
-          </Text>
-          <Text style={styles.nimFokus}>{dataTampilan.mahasiswaFokus?.nim}</Text>
-        </View>
+        <Text style={styles.sectionTitle}>Mahasiswa Terpilih</Text>
+        <View style={styles.cardFokus}><Text style={[styles.nama, styles.namaFokus]}>{dataTampilan.mahasiswaFokus?.nama}</Text><Text style={styles.nimFokus}>{dataTampilan.mahasiswaFokus?.nim}</Text></View>
       </View>
-
-      {/* Menampilkan 5 nama SETELAHNYA dengan 5 FONT VARIABEL BERBEDA */}
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>5 Nama Setelah NIM Fokus (Font Variabel)</Text>
-        {dataTampilan.mahasiswaSetelah.map((mahasiswa, index) => (
-          <View key={mahasiswa.nim} style={styles.cardVariabel}>
-            <Text style={[styles.nama, { fontFamily: fontVariabelConfig[index].family, fontWeight: fontVariabelConfig[index].weight }]}>
-              {index + 1}. {mahasiswa.nama}
-            </Text>
-            <Text style={styles.fontInfo}>{fontVariabelConfig[index].name} (Variabel - Wt: {fontVariabelConfig[index].weight})</Text>
-          </View>
+        <Text style={styles.sectionTitle}>5 Nama Setelah (Font Variabel)</Text>
+        {dataTampilan.mahasiswaSetelah.map((m, i) => (
+          <View key={m.nim} style={styles.cardVariabel}><Text style={[styles.nama, { fontFamily: fontVariabelConfig[i].family, fontWeight: fontVariabelConfig[i].weight }]}>{i + 1}. {m.nama}</Text><Text style={styles.fontInfo}>{fontVariabelConfig[i].name} | Wt: {fontVariabelConfig[i].weight}</Text></View>
         ))}
       </View>
-    </ScrollView>
+    </View>
   );
 }
 
-// --- STYLESHEET YANG LUgas dan Jelas ---
+// Stylesheet yang dirancang untuk kejelasan
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#f0f2f5' },
-  contentContainer: { padding: 15 },
-  headerTitle: { fontSize: 24, fontFamily: 'PoppinsBold', textAlign: 'center', marginBottom: 20, color: '#1c1e21' },
-  searchContainer: { flexDirection: 'row', marginBottom: 20 },
-  inputField: { flex: 1, borderWidth: 1, borderColor: '#ccd0d5', padding: 10, borderRadius: 8, backgroundColor: 'white' },
-  button: { marginLeft: 10, backgroundColor: '#1877f2', padding: 10, borderRadius: 8, justifyContent: 'center' },
-  buttonText: { color: 'white', fontWeight: 'bold' },
-  section: { marginBottom: 25 },
-  sectionTitle: { fontSize: 16, fontFamily: 'RobotoMedium', marginBottom: 10, color: '#606770' },
-  cardStatis: { backgroundColor: 'white', padding: 12, borderRadius: 8, marginBottom: 8, borderWidth: 1, borderColor: '#e4e6eb' },
-  cardVariabel: { backgroundColor: 'white', padding: 12, borderRadius: 8, marginBottom: 8, borderWidth: 1, borderColor: '#e4e6eb' },
-  cardFokus: { backgroundColor: '#4267b2', padding: 20, borderRadius: 8 },
-  nama: { fontSize: 16, color: '#1c1e21' },
-  namaFokus: { color: 'white', fontSize: 20, fontWeight: 'bold' },
-  nimFokus: { color: '#f0f2f5', fontSize: 14, textAlign: 'center', marginTop: 5 },
-  fontInfo: { fontSize: 12, color: '#606770', marginTop: 4, textAlign: 'right' },
+  container: { flex: 1 },
+  headerTitle: { fontSize: 22, fontFamily: 'PoppinsBold', textAlign: 'center', marginBottom: 15, color: '#1d2129' },
+  searchContainer: { flexDirection: 'row', marginBottom: 15, paddingHorizontal: 5 },
+  inputField: { flex: 1, borderWidth: 1, borderColor: '#dddfe2', paddingVertical: 8, paddingHorizontal: 12, borderRadius: 6, backgroundColor: '#fff' },
+  button: { marginLeft: 10, backgroundColor: '#1b74e4', paddingHorizontal: 15, borderRadius: 6, justifyContent: 'center', alignItems: 'center' },
+  buttonText: { color: '#fff', fontWeight: 'bold', fontSize: 14 },
+  section: { marginBottom: 15, backgroundColor: '#fff', borderRadius: 8, borderWidth: 1, borderColor: '#dddfe2', padding: 10, },
+  sectionTitle: { fontSize: 16, fontFamily: 'RobotoMedium', marginBottom: 10, color: '#65676b' },
+  cardStatis: { paddingVertical: 5, borderLeftWidth: 3, borderLeftColor: '#1b74e4', paddingLeft: 10, marginBottom: 5 },
+  cardVariabel: { paddingVertical: 5, borderLeftWidth: 3, borderLeftColor: '#42b72a', paddingLeft: 10, marginBottom: 5 },
+  cardFokus: { backgroundColor: '#f5f6f7', padding: 15, borderRadius: 6, alignItems: 'center' },
+  nama: { fontSize: 15, color: '#1d2129' },
+  namaFokus: { color: '#1d2129', fontSize: 18, fontFamily: 'MerriweatherBold' },
+  nimFokus: { color: '#65676b', fontSize: 14 },
+  fontInfo: { fontSize: 11, color: '#8a8d91', marginTop: 3, fontStyle: 'italic', textAlign: 'right' },
 });
