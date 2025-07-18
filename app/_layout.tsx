@@ -11,10 +11,10 @@ export default function RootLayout() {
 
     // 5 FONT STATIS
     LatoRegular: require('../assets/fonts/font_statis/Lato/Lato-Regular.ttf'),
-    MerriweatherBold: require('../assets/fonts/font_statis/Merriweather/Merriweather-Italic-VariableFont_opsz,wdth,wght.ttf'),
-    OpenSansRegular: require('../assets/fonts/font_statis/Open_Sans/OpenSans-VariableFont_wdth,wght.ttf'),
+    MerriweatherBold: require('../assets/fonts/font_statis/Merriweather/static/Merriweather_24pt_SemiCondensed-Medium.ttf'),
+    OpenSansRegular: require('../assets/fonts/font_statis/Open_Sans/static/OpenSans_Condensed-Medium.ttf'),
     PoppinsBold: require('../assets/fonts/font_statis/Poppins/Poppins-Bold.ttf'),
-    RobotoMedium: require('../assets/fonts/font_statis/Roboto/Roboto-VariableFont_wdth,wght.ttf'),
+    RobotoMedium: require('../assets/fonts/font_statis/Roboto/static/Roboto_Condensed-Medium.ttf'),
 
     // 5 FONT VARIABEL
     MulishVariable: require('../assets/fonts/font_variabel/Mulish/Mulish-VariableFont_wght.ttf'),
