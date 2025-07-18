@@ -1,10 +1,9 @@
 import React from 'react';
 import { SafeAreaView, StyleSheet } from 'react-native';
-import Tugas4 from './tugas4'; // Langsung impor dan tampilkan Tugas4
+import Tugas4 from './tugas4';
 
 export default function Index() {
-  // Langsung menampilkan Tugas4 sebagai satu-satunya konten.
-  // Tidak ada navigasi tab sama sekali.
+  // Langsung menampilkan Tugas4 sebagai satu-satunya konten
   return (
     <SafeAreaView style={styles.container}>
       <Tugas4 />
