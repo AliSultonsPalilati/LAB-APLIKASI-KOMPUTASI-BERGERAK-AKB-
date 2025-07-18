@@ -4,10 +4,10 @@ import { StyleSheet, Text, View, TextInput, TouchableOpacity, Keyboard, ScrollVi
 // Tipe data untuk menjaga kualitas kode
 type FontWeight = "normal" | "bold" | "100" | "200" | "300" | "400" | "500" | "600" | "700" | "800" | "900";
 type FontConfig = { family: string; name: string; weight?: FontWeight; };
-type Student = { nim: string; nama:string; };
+type Student = { nim: string; nama: string; };
 
 // Data Mahasiswa dan Font
-const daftarMhs: Student[] = [
+const daftarMahasiswa: Student[] = [
   { nim: "105841100119", nama: "Muhammad Yusuf" }, { nim: "105841100122", nama: "Siti Marwa" }, { nim: "105841100322", nama: "Fajar Eka Alamsyah" }, { nim: "105841100422", nama: "Ferdiansyah" }, { nim: "105841100622", nama: "Parwati" }, { nim: "105841100722", nama: "Nabila Ismail Matta" }, { nim: "105841100822", nama: "Nur Milani Hidayah" }, { nim: "105841100921", nama: "Arif Rahman" }, { nim: "105841101122", nama: "A. Fajar Apriliawan" }, { nim: "105841101222", nama: "Syaripuddin" }, { nim: "105841101322", nama: "Muhammad Adianto" }, { nim: "105841101522", nama: "Absarmarsal Rizwal Mahua" }, { nim: "105841101622", nama: "Syawaluddin" }, { nim: "105841101722", nama: "Andi Citra Ayu Lestari" }, { nim: "105841101822", nama: "Farisan" }, { nim: "105841101922", nama: "Erick Yusuf Kotte" }, { nim: "105841102222", nama: "Ali Sulton S Palilati" }, { nim: "105841102622", nama: "A. Ikram Mukarram" }, { nim: "105841102922", nama: "Ahmad Fathir" }, { nim: "105841103122", nama: "Nur Muhammad Ashman" }, { nim: "105841103322", nama: "Muhammad Faturrachman Iswan" }, { nim: "105841103422", nama: "Nurmisba" }, { nim: "105841103522", nama: "Alvian Syah Burhani" }, { nim: "105841103622", nama: "Majeri" }, { nim: "105841103722", nama: "Hamdani" }, { nim: "105841103822", nama: "Muliana" }, { nim: "105841109219", nama: "Muh. Asdar" }, { nim: "105841109820", nama: "Muh. Ashabul Khahfi" },
 ];
 
@@ -20,35 +20,31 @@ export default function Tugas4() {
   const [nim, setNim] = useState('105841102222');
   const [data, setData] = useState<{ sebelum: Student[], setelah: Student[], target: Student | null }>({ sebelum: [], setelah: [], target: null });
 
-  // Fungsi ini sekarang hanya untuk menangani klik tombol
   const findAndSetData = () => {
     Keyboard.dismiss();
-    const idx = daftarMhs.findIndex(m => m.nim === nim);
-    if (idx === -1) {
-      Alert.alert('Error', `NIM ${nim} tidak ditemukan.`);
-      return;
-    }
-    const total = daftarMhs.length;
-    const sebelum = Array.from({ length: 5 }, (_, i) => daftarMhs[(idx - 5 + i + total) % total]);
-    const setelah = Array.from({ length: 5 }, (_, i) => daftarMhs[(idx + 1 + i) % total]);
-    setData({ sebelum, setelah, target: daftarMhs[idx] });
+    const idx = daftarMahasiswa.findIndex(m => m.nim === nim);
+    if (idx === -1) return Alert.alert('Error', `NIM ${nim} tidak ditemukan.`);
+
+    const total = daftarMahasiswa.length;
+    const sebelum = Array.from({ length: 5 }, (_, i) => daftarMahasiswa[(idx - 5 + i + total) % total]);
+    const setelah = Array.from({ length: 5 }, (_, i) => daftarMahasiswa[(idx + 1 + i) % total]);
+    setData({ sebelum, setelah, target: daftarMahasiswa[idx] });
   };
   
-  // PERBAIKAN: Logika untuk pencarian awal dipindahkan ke dalam useEffect
-  // Ini menghilangkan peringatan 'exhaustive-deps'
   useEffect(() => {
+    // Logika untuk pencarian awal dipindahkan ke sini
     const initialNim = '105841102222';
-    const idx = daftarMhs.findIndex(m => m.nim === initialNim);
+    const idx = daftarMahasiswa.findIndex(m => m.nim === initialNim);
     if (idx === -1) return;
-
-    const total = daftarMhs.length;
-    const sebelum = Array.from({ length: 5 }, (_, i) => daftarMhs[(idx - 5 + i + total) % total]);
-    const setelah = Array.from({ length: 5 }, (_, i) => daftarMhs[(idx + 1 + i) % total]);
-    setData({ sebelum, setelah, target: daftarMhs[idx] });
-  }, []); // <-- Dependency array kosong sekarang sudah benar
+    const total = daftarMahasiswa.length;
+    const sebelum = Array.from({ length: 5 }, (_, i) => daftarMahasiswa[(idx - 5 + i + total) % total]);
+    const setelah = Array.from({ length: 5 }, (_, i) => daftarMahasiswa[(idx + 1 + i) % total]);
+    setData({ sebelum, setelah, target: daftarMahasiswa[idx] });
+  }, []);
 
   return (
     <ScrollView style={styles.container}>
+      <Text style={styles.headerTitle}>Tugas 4: Urutan Nama & Font</Text>
       <View style={styles.searchContainer}>
         <TextInput style={styles.input} value={nim} onChangeText={setNim} placeholder="Cari NIM" keyboardType="numeric" />
         <TouchableOpacity style={styles.button} onPress={findAndSetData}><Text style={styles.buttonText}>Cari</Text></TouchableOpacity>
@@ -90,7 +86,8 @@ export default function Tugas4() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 10 },
+  container: { flex: 1, padding: 15 },
+  headerTitle: { fontSize: 22, fontWeight: 'bold', textAlign: 'center', marginBottom: 20, color: '#1d2129' },
   searchContainer: { flexDirection: 'row', marginBottom: 15 },
   input: { flex: 1, borderWidth: 1, borderColor: '#ccc', paddingHorizontal: 10, borderRadius: 8, backgroundColor: '#fff' },
   button: { marginLeft: 10, backgroundColor: '#007AFF', paddingHorizontal: 15, borderRadius: 8, justifyContent: 'center' },

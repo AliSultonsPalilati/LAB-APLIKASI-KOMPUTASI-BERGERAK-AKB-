@@ -3,16 +3,14 @@ import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 
-// Mencegah splash screen hilang secara otomatis sebelum font dimuat
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const [loaded, error] = useFonts({
-
     // 5 FONT STATIS
     LatoRegular: require('../assets/fonts/font_statis/Lato/Lato-Regular.ttf'),
-    MerriweatherBold: require('../assets/fonts/font_statis/Merriweather/static/Merriweather_24pt_SemiCondensed-Medium.ttf'),
-    OpenSansRegular: require('../assets/fonts/font_statis/Open_Sans/static/OpenSans_Condensed-Medium.ttf'),
+    MerriweatherBold: require('../assets/fonts/font_statis/Merriweather/static/Merriweather_24pt_SemiCondensed-Bold.ttf'),
+    OpenSansRegular: require('../assets/fonts/font_statis/Open_Sans/static/OpenSans-Regular.ttf'),
     PoppinsBold: require('../assets/fonts/font_statis/Poppins/Poppins-Bold.ttf'),
     RobotoMedium: require('../assets/fonts/font_statis/Roboto/static/Roboto_Condensed-Medium.ttf'),
 
@@ -34,5 +32,5 @@ export default function RootLayout() {
     return null;
   }
 
-  return <Stack />;
+  return <Stack screenOptions={{ headerShown: false }} />;
 }
