@@ -1,41 +1,34 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import Tugas4 from './tugas4'; // Hanya mengimpor Tugas4 yang akan ditampilkan
+import { StyleSheet, View, Text, SafeAreaView, StatusBar } from 'react-native';
+import Tugas4 from './tugas4'; // Langsung impor Tugas4
 
 export default function Index() {
-  // Langsung menampilkan Tugas 4 sebagai satu-satunya konten utama
+  // Langsung menampilkan Tugas4 sebagai satu-satunya konten.
+  // Tidak ada navigasi tab.
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>TUGAS 4 - FONT & URUTAN</Text>
+        <Text style={styles.headerTitle}>Tugas 4: Font Showcase</Text>
       </View>
-      <View style={styles.contentCard}>
-        <Tugas4 />
-      </View>
-    </View>
+      <Tugas4 />
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f8fafc",
+    backgroundColor: '#f0f2f5',
+    paddingTop: StatusBar.currentHeight || 0,
   },
   header: {
-    paddingTop: 40,
-    paddingBottom: 20,
-    backgroundColor: "#1e293b",
-    borderBottomWidth: 2,
-    borderBottomColor: '#3b82f6',
+    padding: 15,
+    backgroundColor: '#1e293b',
   },
   headerTitle: {
-    fontSize: 24,
-    fontWeight: "bold",
-    color: "#ffffff",
-    textAlign: "center",
-  },
-  contentCard: {
-    flex: 1,
-    backgroundColor: "#f0f2f5",
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#ffffff',
+    textAlign: 'center',
   },
 });
