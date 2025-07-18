@@ -8,7 +8,7 @@ import {
   Keyboard,
 } from 'react-native';
 
-// --- DATA DAN KONFIGURASI ---
+
 const daftarMahasiswa = [
   { nim: "105841100119", nama: "Muhammad Yusuf" }, { nim: "105841100122", nama: "Siti Marwa" },
   { nim: "105841100322", nama: "Fajar Eka Alamsyah" }, { nim: "105841100422", nama: "Ferdiansyah" },
@@ -26,10 +26,8 @@ const daftarMahasiswa = [
   { nim: "105841109219", nama: "Muh. Asdar" }, { nim: "105841109820", nama: "Muh. Ashabul Khahfi" },
 ];
 
-// PERBAIKAN: Mendefinisikan tipe spesifik untuk fontWeight
 type FontWeight = "normal" | "bold" | "100" | "200" | "300" | "400" | "500" | "600" | "700" | "800" | "900";
 
-// PERBAIKAN: Menggunakan tipe FontWeight untuk properti weight
 type FontConfig = {
   family: string;
   name: string;
@@ -48,39 +46,7 @@ const fontStylesAfter: FontConfig[] = [
   { family: 'OswaldVariable', name: 'Oswald', weight: '700' },
 ];
 
-type Student = {
-  nim: string;
-  nama: string;
-};
-
-type NameEntryCardProps = {
-  student: Student;
-  fontConfig: FontConfig;
-  fontType: 'STATIS' | 'VARIABEL';
-};
-
-const NameEntryCard = ({ student, fontConfig, fontType }: NameEntryCardProps) => (
-  <View style={styles.cardContainer}>
-    <Text style={[
-      styles.cardName,
-      // Kode di bawah ini sekarang valid karena TypeScript tahu `fontConfig.weight` adalah tipe yang benar.
-      { fontFamily: fontConfig.family, fontWeight: fontType === 'VARIABEL' ? fontConfig.weight : 'normal' }
-    ]}>
-      {student.nama}
-    </Text>
-    <View style={styles.cardFooter}>
-      <Text style={styles.cardFontInfo}>
-        {fontConfig.name} • Wt: {fontConfig.weight}
-      </Text>
-      <Text style={fontType === 'STATIS' ? styles.tagStatic : styles.tagVariable}>
-        {fontType}
-      </Text>
-    </View>
-  </View>
-);
-
-// --- KOMPONEN UTAMA ---
-export default function StudentSequenceDisplay() {
+export default function CreativeFontDisplay() {
   const [nimQuery, setNimQuery] = useState('105841102222');
   const [selectedNim, setSelectedNim] = useState('105841102222');
 
@@ -89,89 +55,185 @@ export default function StudentSequenceDisplay() {
     const currentIndex = daftarMahasiswa.findIndex(m => m.nim === selectedNim);
     if (currentIndex === -1) return { before: [], after: [], current: null };
 
-    const before = [];
-    for (let i = 1; i <= 5; i++) {
-      const targetIndex = (currentIndex - i + total) % total;
-      before.unshift(daftarMahasiswa[targetIndex]);
-    }
+    const before = Array.from({ length: 5 }, (_, i) => {
+      const targetIndex = (currentIndex - (5 - i) + total) % total;
+      return daftarMahasiswa[targetIndex];
+    });
 
-    const after = [];
-    for (let i = 1; i <= 5; i++) {
-      const targetIndex = (currentIndex + i) % total;
-      after.push(daftarMahasiswa[targetIndex]);
-    }
+    const after = Array.from({ length: 5 }, (_, i) => {
+      const targetIndex = (currentIndex + i + 1) % total;
+      return daftarMahasiswa[targetIndex];
+    });
     
     return { before, after, current: daftarMahasiswa[currentIndex] };
   }, [selectedNim]);
 
   const executeSearch = () => {
     Keyboard.dismiss();
-    const isFound = daftarMahasiswa.some(m => m.nim === nimQuery);
-    if (isFound) {
+    if (daftarMahasiswa.some(m => m.nim === nimQuery)) {
       setSelectedNim(nimQuery);
     } else {
-      alert(`NIM ${nimQuery} tidak terdaftar.`);
+      alert(`NIM ${nimQuery} tidak ditemukan.`);
     }
   };
 
   return (
-    <View style={styles.mainContainer}>
-      <Text style={styles.mainHeading}>Urutan Nama Mahasiswa & Font</Text>
-      
-      <View style={styles.searchWrapper}>
-        <TextInput
-          style={styles.inputField}
-          onChangeText={setNimQuery}
-          value={nimQuery}
-          placeholder="Cari berdasarkan NIM..."
-          keyboardType="number-pad"
-          placeholderTextColor="#9CA3AF"
-        />
-        <TouchableOpacity style={styles.actionButton} onPress={executeSearch}>
-          <Text style={styles.actionButtonText}>Cari</Text>
-        </TouchableOpacity>
-      </View>
-
-      <View style={styles.listSection}>
-        <Text style={styles.sectionHeading}>↓ 5 Nama Sebelumnya (Font Statis)</Text>
+    <View style={styles.container}>
+      {/* Bagian Kiri: 5 Nama Sebelumnya (Font Statis) */}
+      <View style={styles.sideColumn}>
+        <Text style={styles.columnTitle}>Sebelumnya</Text>
         {displayData.before.map((mhs, i) => (
-          <NameEntryCard key={mhs.nim} student={mhs} fontConfig={fontStylesBefore[i]} fontType="STATIS" />
+          <View key={mhs.nim} style={styles.staticCard}>
+            <Text style={[styles.nameText, { fontFamily: fontStylesBefore[i].family }]}>
+              {mhs.nama}
+            </Text>
+            <Text style={styles.fontInfoText}>{fontStylesBefore[i].name}</Text>
+          </View>
         ))}
       </View>
 
-      <View style={styles.highlightedEntry}>
-        <Text style={styles.highlightedLabel}>NIM Aktif: {displayData.current?.nim}</Text>
-        <Text style={styles.highlightedName}>{displayData.current?.nama}</Text>
+      {/* Bagian Tengah: Mahasiswa Terpilih dan Kontrol */}
+      <View style={styles.centerColumn}>
+        <View style={styles.mainDisplayCircle}>
+          <Text style={styles.mainName} numberOfLines={2}>
+            {displayData.current?.nama}
+          </Text>
+          <Text style={styles.mainNim}>{displayData.current?.nim}</Text>
+        </View>
+        <View style={styles.searchBox}>
+          <TextInput
+            style={styles.inputField}
+            onChangeText={setNimQuery}
+            value={nimQuery}
+            placeholder="Masukkan NIM"
+            keyboardType="numeric"
+          />
+          <TouchableOpacity style={styles.searchButton} onPress={executeSearch}>
+            <Text style={styles.searchButtonText}>Cari</Text>
+          </TouchableOpacity>
+        </View>
       </View>
 
-      <View style={styles.listSection}>
-        <Text style={styles.sectionHeading}>↑ 5 Nama Berikutnya (Font Variabel)</Text>
+      {/* Bagian Kanan: 5 Nama Setelahnya (Font Variabel) */}
+      <View style={styles.sideColumn}>
+        <Text style={styles.columnTitle}>Berikutnya</Text>
         {displayData.after.map((mhs, i) => (
-          <NameEntryCard key={mhs.nim} student={mhs} fontConfig={fontStylesAfter[i]} fontType="VARIABEL" />
+          <View key={mhs.nim} style={styles.variableCard}>
+            <Text style={[styles.nameText, { fontFamily: fontStylesAfter[i].family, fontWeight: fontStylesAfter[i].weight }]}>
+              {mhs.nama}
+            </Text>
+            <Text style={styles.fontInfoText}>{fontStylesAfter[i].name} (Wt: {fontStylesAfter[i].weight})</Text>
+          </View>
         ))}
       </View>
     </View>
   );
 }
 
-// --- STYLESHEET ---
+// --- STYLESHEET BARU YANG KREATIF ---
 const styles = StyleSheet.create({
-  mainContainer: { flex: 1 },
-  mainHeading: { fontSize: 22, textAlign: 'center', marginBottom: 20, fontFamily: 'PoppinsBold', color: '#111827' },
-  searchWrapper: { flexDirection: 'row', gap: 10, marginBottom: 25 },
-  inputField: { flex: 1, height: 46, backgroundColor: '#F9FAFB', borderRadius: 8, paddingHorizontal: 15, fontSize: 15, color: '#1F2937', borderWidth: 1, borderColor: '#D1D5DB' },
-  actionButton: { height: 46, backgroundColor: '#10B981', borderRadius: 8, justifyContent: 'center', paddingHorizontal: 20 },
-  actionButtonText: { color: 'white', fontSize: 15, fontWeight: '600' },
-  listSection: { marginBottom: 15 },
-  sectionHeading: { fontSize: 18, fontFamily: 'PoppinsBold', color: '#374151', marginBottom: 10 },
-  cardContainer: { backgroundColor: 'white', borderRadius: 10, padding: 15, marginBottom: 10, borderWidth: 1, borderColor: '#E5E7EB' },
-  cardName: { fontSize: 18, color: '#111827', marginBottom: 10 },
-  cardFooter: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-  cardFontInfo: { fontSize: 12, color: '#6B7280', fontFamily: 'LatoRegular' },
-  tagShared: { fontSize: 10, paddingHorizontal: 8, paddingVertical: 3, borderRadius: 10, fontWeight: 'bold', overflow: 'hidden' },
-  tagStatic: { backgroundColor: '#DBEAFE', color: '#1E40AF' },
-  tagVariable: { backgroundColor: '#FEE2E2', color: '#B91C1C' },
-  highlightedEntry: { marginVertical: 15, padding: 20, backgroundColor: '#1F2937', borderRadius: 12, alignItems: 'center', elevation: 4, shadowColor: '#000' },
-  highlightedLabel: { fontSize: 13, color: '#9CA3AF', marginBottom: 6 },
-  highlightedName: { fontSize: 22, color: 'white', fontFamily: 'MerriweatherBold', textAlign: 'center' },
+  container: {
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor: '#111827', // Latar belakang gelap
+    padding: 10,
+  },
+  sideColumn: {
+    flex: 3,
+    justifyContent: 'space-around',
+    paddingHorizontal: 5,
+  },
+  centerColumn: {
+    flex: 4,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 10,
+  },
+  columnTitle: {
+    textAlign: 'center',
+    fontSize: 14,
+    color: '#9CA3AF',
+    marginBottom: 10,
+    fontFamily: 'PoppinsBold',
+  },
+  staticCard: {
+    backgroundColor: '#374151',
+    padding: 10,
+    borderRadius: 12,
+    marginBottom: 8,
+    borderLeftWidth: 4,
+    borderLeftColor: '#3B82F6', // Biru
+  },
+  variableCard: {
+    backgroundColor: '#374151',
+    padding: 10,
+    borderRadius: 12,
+    marginBottom: 8,
+    borderLeftWidth: 4,
+    borderLeftColor: '#10B981', // Hijau
+  },
+  nameText: {
+    color: '#F9FAFB',
+    fontSize: 13,
+  },
+  fontInfoText: {
+    color: '#9CA3AF',
+    fontSize: 10,
+    marginTop: 4,
+  },
+  mainDisplayCircle: {
+    width: 200,
+    height: 200,
+    borderRadius: 100, // Lingkaran sempurna
+    backgroundColor: '#4F46E5', // Ungu
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 15,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    elevation: 8,
+    borderWidth: 4,
+    borderColor: 'rgba(255,255,255,0.1)',
+  },
+  mainName: {
+    color: 'white',
+    fontSize: 22,
+    fontFamily: 'MerriweatherBold',
+    textAlign: 'center',
+  },
+  mainNim: {
+    color: '#D1D5DB',
+    fontSize: 12,
+    marginTop: 8,
+    fontFamily: 'LatoRegular',
+  },
+  searchBox: {
+    marginTop: 25,
+    width: '100%',
+  },
+  inputField: {
+    backgroundColor: '#1F2937',
+    color: 'white',
+    borderRadius: 20,
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    textAlign: 'center',
+    fontSize: 14,
+    marginBottom: 10,
+    borderWidth: 1,
+    borderColor: '#4B5563',
+  },
+  searchButton: {
+    backgroundColor: '#F59E0B', // Oranye
+    borderRadius: 20,
+    paddingVertical: 12,
+    alignItems: 'center',
+  },
+  searchButtonText: {
+    color: '#1F2937',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
 });
