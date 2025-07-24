@@ -1,113 +1,181 @@
-import React from 'react';
-import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
+import React, { useState } from "react";
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  ScrollView,
+} from "react-native";
 
-export default function TugasAkhir() {
+// Import komponen dari file lain
+import Tugas1 from "./tugas1";
+import Tugas2 from "./tugas2";
+import Tugas3 from "./tugas3";
+import Tugas4 from "./tugas4";
+import Tugas6 from "./tugas6"; // Pastikan Anda memiliki file tugas5.tsx
+
+export default function Index(): React.JSX.Element {
+  // Anda bisa mengatur state awal ke 1 atau 4, sesuai keinginan
+  const [activeTask, setActiveTask] = useState<number>(1);
+
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <ScrollView contentContainerStyle={styles.container}>
-        <Text style={[styles.headerTitle, { fontFamily: 'PoppinsBold' }]}>
-          Final Project Showcase
-        </Text>
-        <Text style={styles.headerSubtitle}>
-          Referensi NIM: 105841102222 (Ali Sulton S Palilati)
-        </Text>
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.headerTitle}>Tugas LAB</Text>
+        <Text style={styles.headerSubtitle}>Pilih Untuk Melihat Tugas</Text>
+      </View>
 
-        <View style={styles.divider} />
-        <Text style={styles.sectionTitle}>--- 5 Nama Sebelum (Font Statis) ---</Text>
-        
-        {/* 5 NAMA SEBELUM DENGAN 5 FONT STATIS BERBEDA */}
-        <Text style={[styles.nameCard, { fontFamily: 'LatoRegular' }]}>
-          Absarmarsal Rizwal Mahua{'\n'}(105841101522)
-        </Text>
-        <Text style={[styles.nameCard, { fontFamily: 'RobotoMedium' }]}>
-          Syawaluddin{'\n'}(105841101622)
-        </Text>
-        <Text style={[styles.nameCard, { fontFamily: 'OpenSansRegular' }]}>
-          Andi Citra Ayu Lestari{'\n'}(105841101722)
-        </Text>
-        <Text style={[styles.nameCard, { fontFamily: 'MerriweatherBold' }]}>
-          Farisan{'\n'}(105841101822)
-        </Text>
-        <Text style={[styles.nameCard, { fontFamily: 'PoppinsBold' }]}>
-          Erick Yusuf Kotte{'\n'}(105841101922)
-        </Text>
+      <View style={styles.navigationContainer}>
+        <TouchableOpacity
+          style={[styles.navButton, activeTask === 1 && styles.activeNavButton]}
+          onPress={() => setActiveTask(1)}
+        >
+          <Text
+            style={[
+              styles.navButtonText,
+              activeTask === 1 && styles.activeNavButtonText,
+            ]}
+          >
+            📋 Tugas 1
+          </Text>
+        </TouchableOpacity>
 
-        <View style={styles.divider} />
-        <Text style={styles.sectionTitle}>--- 5 Nama Setelah (Font Variabel) ---</Text>
+        <TouchableOpacity
+          style={[styles.navButton, activeTask === 2 && styles.activeNavButton]}
+          onPress={() => setActiveTask(2)}
+        >
+          <Text
+            style={[
+              styles.navButtonText,
+              activeTask === 2 && styles.activeNavButtonText,
+            ]}
+          >
+            🖼️ Tugas 2
+          </Text>
+        </TouchableOpacity>
 
-        {/* 5 NAMA SETELAH DENGAN 5 FONT VARIABEL BERBEDA */}
-        <Text style={[styles.nameCard, { fontFamily: 'MulishVariable', fontWeight: '300' }]}>
-          A. Ikram Mukarram{'\n'}(105841102622)
-        </Text>
-        <Text style={[styles.nameCard, { fontFamily: 'NunitoSansVariable', fontWeight: '400' }]}>
-          Ahmad Fathir{'\n'}(105841102922)
-        </Text>
-        <Text style={[styles.nameCard, { fontFamily: 'WorkSansVariable', fontWeight: '500' }]}>
-          Nur Muhammad Ashman{'\n'}(105841103122)
-        </Text>
-        <Text style={[styles.nameCard, { fontFamily: 'RubikVariable', fontWeight: '700' }]}>
-          Muhammad Faturrachman Iswan{'\n'}(105841103322)
-        </Text>
-        <Text style={[styles.nameCard, { fontFamily: 'OswaldVariable', fontWeight: '900' }]}>
-          Nurmisba{'\n'}(105841103422)
-        </Text>
-      </ScrollView>
-    </SafeAreaView>
+        <TouchableOpacity
+          style={[styles.navButton, activeTask === 3 && styles.activeNavButton]}
+          onPress={() => setActiveTask(3)}
+        >
+          <Text
+            style={[
+              styles.navButtonText,
+              activeTask === 3 && styles.activeNavButtonText,
+            ]}
+          >
+            ⚙️ Tugas 3
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.navButton, activeTask === 4 && styles.activeNavButton]}
+          onPress={() => setActiveTask(4)}
+        >
+          <Text
+            style={[
+              styles.navButtonText,
+              activeTask === 4 && styles.activeNavButtonText,
+            ]}
+          >
+            ✒️ Tugas 4
+          </Text>
+        </TouchableOpacity>
+
+        {/* BAGIAN INI YANG DIPERBAIKI */}
+        <TouchableOpacity
+          style={[styles.navButton, activeTask === 6 && styles.activeNavButton]}
+          onPress={() => setActiveTask(6)}
+        >
+          <Text
+            style={[
+              styles.navButtonText,
+              activeTask === 5 && styles.activeNavButtonText,
+            ]}
+          >
+            🧩 Tugas 6
+          </Text>
+        </TouchableOpacity>
+      </View>
+
+      <View style={styles.contentWrapper}>
+        <View style={styles.contentCard}>
+          <ScrollView showsVerticalScrollIndicator={false}>
+            {activeTask === 1 ? (
+              <Tugas1 />
+            ) : activeTask === 2 ? (
+              <Tugas2 />
+            ) : activeTask === 3 ? (
+              <Tugas3 />
+            ) : activeTask === 4 ? (
+              <Tugas4 />
+            ) : activeTask === 6 ? (
+              <Tugas6 />
+            ) : null}
+          </ScrollView>
+        </View>
+      </View>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  safeArea: { 
-    flex: 1, 
-    backgroundColor: '#F3F4F6',
+  container: { flex: 1, backgroundColor: "#f8fafc" },
+  header: {
+    paddingTop: 40,
+    paddingBottom: 20,
+    paddingHorizontal: 24,
+    backgroundColor: "#ffffff",
+    borderBottomLeftRadius: 32,
+    borderBottomRightRadius: 32,
+    elevation: 8,
   },
-  container: { 
-    paddingHorizontal: 20,
-    paddingVertical: 25,
+  headerTitle: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "#1e293b",
+    textAlign: "center",
   },
-  headerTitle: { 
-    fontSize: 26, 
-    fontWeight: 'bold', 
-    color: '#111827',
-    textAlign: 'center',
-    marginBottom: 8,
-  },
-  headerSubtitle: { 
-    fontSize: 14, 
-    color: '#6B7280',
-    textAlign: 'center', 
-  },
-  nameCard: {
-    fontSize: 20,
-    color: '#1F2937',
-    textAlign: 'center',
-    marginBottom: 15,
-    padding: 15,
-    borderWidth: 1,
-    borderColor: '#E5E7EB',
-    borderRadius: 8,
-    backgroundColor: '#FFFFFF',
-    lineHeight: 30,
-    elevation: 1,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.05,
-    shadowRadius: 2,
-  },
-  divider: {
-    height: 1,
-    backgroundColor: '#D1D5DB',
-    width: '90%',
-    alignSelf: 'center',
-    marginVertical: 25,
-  },
-  sectionTitle: {
+  headerSubtitle: {
     fontSize: 12,
-    fontWeight: '600',
-    color: '#4B5563',
-    textAlign: 'center',
-    textTransform: 'uppercase',
-    letterSpacing: 1,
-    marginBottom: 20,
-  }
+    color: "#64748b",
+    textAlign: "center",
+    fontWeight: "500",
+  },
+  navigationContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    padding: 20,
+    gap: 10,
+  },
+  navButton: {
+    flex: 1,
+    backgroundColor: "#ffffff",
+    borderRadius: 20,
+    paddingVertical: 12,
+    elevation: 4,
+    borderWidth: 1,
+    borderColor: "#e2e8f0",
+  },
+  activeNavButton: {
+    backgroundColor: "#3b82f6",
+    borderColor: "#2563eb",
+  },
+  navButtonText: {
+    fontSize: 14,
+    fontWeight: "600",
+    color: "#475569",
+    textAlign: "center",
+  },
+  activeNavButtonText: { color: "#ffffff" },
+  contentWrapper: { flex: 1, paddingHorizontal: 20, paddingBottom: 20 },
+  contentCard: {
+    flex: 1,
+    backgroundColor: "#ffffff",
+    borderRadius: 24,
+    padding: 20,
+    elevation: 8,
+    borderWidth: 1,
+    borderColor: "#f1f5f9",
+  },
 });
