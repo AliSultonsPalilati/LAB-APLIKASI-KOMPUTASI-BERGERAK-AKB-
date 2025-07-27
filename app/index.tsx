@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   View,
   ScrollView,
+  Dimensions,
 } from "react-native";
 
 import Tugas1 from "./tugas1";
@@ -13,9 +14,76 @@ import Tugas3 from "./tugas3";
 import Tugas4 from "./tugas4";
 import Tugas5 from "./tugas5";
 import Tugas6 from "./tugas6";
+import Tugas7 from "./tugas7";
+import Tugas8 from "./tugas8"; 
 
 export default function Index(): React.JSX.Element {
   const [activeTask, setActiveTask] = useState<number>(1);
+  const screenWidth = Dimensions.get('window').width;
+  
+  // Tentukan apakah ini desktop/tablet (lebar > 768px) atau mobile
+  const isDesktop = screenWidth > 768;
+  
+  // Data tugas untuk memudahkan penambahan tugas baru
+  const tasks = [
+    { id: 1, title: "📋 Tugas 1", component: <Tugas1 /> },
+    { id: 2, title: "🖼️ Tugas 2", component: <Tugas2 /> },
+    { id: 3, title: "⚙️ Tugas 3", component: <Tugas3 /> },
+    { id: 4, title: "✒️ Tugas 4", component: <Tugas4 /> },
+    { id: 5, title: "🤔 Tugas 5", component: <Tugas5 /> },
+    { id: 6, title: "🧩 Tugas 6", component: <Tugas6 /> },
+    { id: 7, title: "🎯 Tugas 7", component: <Tugas7 /> },
+    { id: 8, title: "🚀 Tugas 8", component: <Tugas8 /> },
+  ];
+
+  // Fungsi untuk membagi tugas ke dalam baris berdasarkan ukuran layar
+  const getTaskRows = () => {
+    if (isDesktop) {
+      // Desktop: 6 tugas per baris, sisanya di baris berikutnya di tengah
+      const rows = [];
+      for (let i = 0; i < tasks.length; i += 6) {
+        rows.push(tasks.slice(i, i + 6));
+      }
+      return rows;
+    } else {
+      // Mobile: 4 tugas di baris pertama, sisanya 2-2 di tengah
+      const rows = [];
+      if (tasks.length > 4) {
+        rows.push(tasks.slice(0, 4)); // 4 tugas pertama
+        // Sisanya dibagi 2-2, jika ganjil biarkan 1 di baris terakhir
+        for (let i = 4; i < tasks.length; i += 2) {
+          rows.push(tasks.slice(i, i + 2));
+        }
+      } else {
+        rows.push(tasks);
+      }
+      return rows;
+    }
+  };
+
+  const taskRows = getTaskRows();
+
+  const renderTaskButton = (task: any, isInCenterRow: boolean = false) => (
+    <TouchableOpacity
+      key={task.id}
+      style={[
+        styles.navButton,
+        activeTask === task.id && styles.activeNavButton,
+        isDesktop ? styles.desktopButton : styles.mobileButton,
+        isInCenterRow && styles.centerRowButton,
+      ]}
+      onPress={() => setActiveTask(task.id)}
+    >
+      <Text
+        style={[
+          styles.navButtonText,
+          activeTask === task.id && styles.activeNavButtonText,
+        ]}
+      >
+        {task.title}
+      </Text>
+    </TouchableOpacity>
+  );
 
   return (
     <View style={styles.container}>
@@ -25,107 +93,26 @@ export default function Index(): React.JSX.Element {
       </View>
 
       <View style={styles.navigationContainer}>
-        <TouchableOpacity
-          style={[styles.navButton, activeTask === 1 && styles.activeNavButton]}
-          onPress={() => setActiveTask(1)}
-        >
-          <Text
+        {taskRows.map((row, rowIndex) => (
+          <View 
+            key={rowIndex} 
             style={[
-              styles.navButtonText,
-              activeTask === 1 && styles.activeNavButtonText,
+              styles.navigationRow,
+              // Baris pertama selalu full width
+              rowIndex === 0 ? styles.fullWidthRow : styles.centerRow
             ]}
           >
-            📋 Tugas 1
-          </Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[styles.navButton, activeTask === 2 && styles.activeNavButton]}
-          onPress={() => setActiveTask(2)}
-        >
-          <Text
-            style={[
-              styles.navButtonText,
-              activeTask === 2 && styles.activeNavButtonText,
-            ]}
-          >
-            🖼️ Tugas 2
-          </Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[styles.navButton, activeTask === 3 && styles.activeNavButton]}
-          onPress={() => setActiveTask(3)}
-        >
-          <Text
-            style={[
-              styles.navButtonText,
-              activeTask === 3 && styles.activeNavButtonText,
-            ]}
-          >
-            ⚙️ Tugas 3
-          </Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[styles.navButton, activeTask === 4 && styles.activeNavButton]}
-          onPress={() => setActiveTask(4)}
-        >
-          <Text
-            style={[
-              styles.navButtonText,
-              activeTask === 4 && styles.activeNavButtonText,
-            ]}
-          >
-            ✒️ Tugas 4
-          </Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[styles.navButton, activeTask === 5 && styles.activeNavButton]}
-          onPress={() => setActiveTask(5)}
-        >
-          <Text
-            style={[
-              styles.navButtonText,
-              activeTask === 5 && styles.activeNavButtonText,
-            ]}
-          >
-            🤔 Tugas 5
-          </Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[styles.navButton, activeTask === 6 && styles.activeNavButton]}
-          onPress={() => setActiveTask(6)}
-        >
-          <Text
-            style={[
-              styles.navButtonText,
-              activeTask === 5 && styles.activeNavButtonText,
-            ]}
-          >
-            🧩 Tugas 6
-          </Text>
-        </TouchableOpacity>
+            {row.map((task) => 
+              renderTaskButton(task, rowIndex > 0)
+            )}
+          </View>
+        ))}
       </View>
 
       <View style={styles.contentWrapper}>
         <View style={styles.contentCard}>
           <ScrollView showsVerticalScrollIndicator={false}>
-            {activeTask === 1 ? (
-              <Tugas1 />
-            ) : activeTask === 2 ? (
-              <Tugas2 />
-            ) : activeTask === 3 ? (
-              <Tugas3 />
-            ) : activeTask === 4 ? (
-              <Tugas4 />
-            ) : activeTask === 5 ? (
-              <Tugas5 />
-            ) : activeTask === 6 ? (
-              <Tugas6 />
-            ) : null}
+            {tasks.find(task => task.id === activeTask)?.component}
           </ScrollView>
         </View>
       </View>
@@ -134,7 +121,10 @@ export default function Index(): React.JSX.Element {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#f8fafc" },
+  container: { 
+    flex: 1, 
+    backgroundColor: "#f8fafc" 
+  },
   header: {
     paddingTop: 40,
     paddingBottom: 20,
@@ -157,19 +147,45 @@ const styles = StyleSheet.create({
     fontWeight: "500",
   },
   navigationContainer: {
-    flexDirection: "row",
-    justifyContent: "center",
     padding: 20,
     gap: 10,
   },
+  navigationRow: {
+    flexDirection: "row",
+    gap: 10,
+  },
+  fullWidthRow: {
+    justifyContent: "center",
+  },
+  centerRow: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
   navButton: {
-    flex: 1,
     backgroundColor: "#ffffff",
     borderRadius: 20,
     paddingVertical: 12,
+    paddingHorizontal: 8,
     elevation: 4,
     borderWidth: 1,
     borderColor: "#e2e8f0",
+    minHeight: 45,
+    justifyContent: "center",
+  },
+  desktopButton: {
+    flex: 1,
+    maxWidth: 150,
+    minWidth: 120,
+  },
+  mobileButton: {
+    flex: 1,
+    maxWidth: 120,
+    minWidth: 80,
+  },
+  centerRowButton: {
+    flex: 0,
+    width: 120, // Fixed width untuk tombol di center row
+    paddingHorizontal: 16,
   },
   activeNavButton: {
     backgroundColor: "#3b82f6",
@@ -181,8 +197,14 @@ const styles = StyleSheet.create({
     color: "#475569",
     textAlign: "center",
   },
-  activeNavButtonText: { color: "#ffffff" },
-  contentWrapper: { flex: 1, paddingHorizontal: 20, paddingBottom: 20 },
+  activeNavButtonText: { 
+    color: "#ffffff" 
+  },
+  contentWrapper: { 
+    flex: 1, 
+    paddingHorizontal: 20, 
+    paddingBottom: 20 
+  },
   contentCard: {
     flex: 1,
     backgroundColor: "#ffffff",
