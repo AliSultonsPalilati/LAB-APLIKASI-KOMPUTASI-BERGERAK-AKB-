@@ -7,15 +7,14 @@ import {
   ScrollView,
 } from "react-native";
 
-// Import komponen dari file lain
 import Tugas1 from "./tugas1";
 import Tugas2 from "./tugas2";
 import Tugas3 from "./tugas3";
 import Tugas4 from "./tugas4";
-import Tugas6 from "./tugas6"; // Pastikan Anda memiliki file tugas5.tsx
+import Tugas5 from "./tugas5";
+import Tugas6 from "./tugas6";
 
 export default function Index(): React.JSX.Element {
-  // Anda bisa mengatur state awal ke 1 atau 4, sesuai keinginan
   const [activeTask, setActiveTask] = useState<number>(1);
 
   return (
@@ -82,7 +81,20 @@ export default function Index(): React.JSX.Element {
           </Text>
         </TouchableOpacity>
 
-        {/* BAGIAN INI YANG DIPERBAIKI */}
+        <TouchableOpacity
+          style={[styles.navButton, activeTask === 5 && styles.activeNavButton]}
+          onPress={() => setActiveTask(5)}
+        >
+          <Text
+            style={[
+              styles.navButtonText,
+              activeTask === 5 && styles.activeNavButtonText,
+            ]}
+          >
+            🤔 Tugas 5
+          </Text>
+        </TouchableOpacity>
+
         <TouchableOpacity
           style={[styles.navButton, activeTask === 6 && styles.activeNavButton]}
           onPress={() => setActiveTask(6)}
@@ -109,6 +121,8 @@ export default function Index(): React.JSX.Element {
               <Tugas3 />
             ) : activeTask === 4 ? (
               <Tugas4 />
+            ) : activeTask === 5 ? (
+              <Tugas5 />
             ) : activeTask === 6 ? (
               <Tugas6 />
             ) : null}
