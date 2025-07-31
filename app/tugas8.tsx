@@ -1,193 +1,244 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 
 const Tugas8 = () => {
   return (
-    <View style={styles.container}>
-      <View style={styles.headerSection}>
-        <Text style={styles.mainIcon}>🔧</Text>
-        <Text style={styles.title}>Under Construction</Text>
-        <Text style={styles.subtitle}>Task 8</Text>
-      </View>
-      
-      <View style={styles.messageContainer}>
-        <Text style={styles.message}>
-          This task is currently being developed and will be available in the next update. 
-          We appreciate your patience!
-        </Text>
-      </View>
-      
-      <View style={styles.statusContainer}>
-        <View style={styles.statusItem}>
-          <View style={styles.statusDot}></View>
-          <Text style={styles.statusText}>Planning Phase</Text>
-          <Text style={styles.statusCheck}>✅</Text>
+    <ScrollView style={styles.container}>
+      <View style={styles.header}>
+        <View style={styles.iconContainer}>
+          <Text style={styles.mainIcon}>📱</Text>
+          <Text style={styles.sparkles}>✨</Text>
         </View>
         
-        <View style={styles.statusItem}>
-          <View style={[styles.statusDot, styles.statusDotActive]}></View>
-          <Text style={styles.statusText}>Development Phase</Text>
-          <Text style={styles.statusProgress}>🔄</Text>
+        <Text style={styles.title}>Tabs Bar Implementation</Text>
+        <Text style={styles.subtitle}>Navigasi dengan Tab Bar</Text>
+      </View>
+
+      <View style={styles.contentContainer}>
+        <View style={styles.flexContainer}>
+          {/* Left Column - What is Tabs Bar */}
+          <View style={styles.leftColumn}>
+            <View style={styles.sectionHeader}>
+              <Text style={styles.sectionIcon}>🔧</Text>
+              <Text style={styles.sectionTitle}>Apa itu Tabs Bar?</Text>
+            </View>
+            
+            <View style={styles.answerBox}>
+              <Text style={styles.answerText}>
+                <Text style={styles.boldText}>Tabs Bar</Text> adalah komponen navigasi yang memungkinkan pengguna 
+                untuk berpindah antar halaman atau section dengan mudah melalui tab yang tersedia di bagian bawah 
+                atau atas layar. Tabs bar sangat umum digunakan dalam aplikasi mobile karena memberikan akses cepat 
+                ke berbagai fitur utama aplikasi. Setiap tab biasanya memiliki icon dan label yang menggambarkan 
+                konten atau fungsi dari halaman tersebut. Dengan tabs bar, pengguna dapat dengan intuitif memahami 
+                struktur aplikasi dan navigasi menjadi lebih user-friendly.
+              </Text>
+            </View>
+          </View>
+
+          {/* Right Column - Implementation Status */}
+          <View style={styles.rightColumn}>
+            <View style={styles.sectionHeader}>
+              <Text style={styles.sectionIcon}>✅</Text>
+              <Text style={styles.sectionTitle}>Status Implementasi</Text>
+            </View>
+            
+            <View style={styles.answerBox}>
+              <Text style={styles.answerText}>
+                <Text style={styles.boldText}>Tabs Bar telah berhasil diimplementasikan</Text> dan sudah digunakan 
+                pada tampilan utama aplikasi ini. Anda dapat melihat tabs bar yang berfungsi dengan baik di bagian 
+                bawah layar, yang memungkinkan navigasi antar berbagai tugas (Tugas 1, Tugas 2, Tugas 3, dan seterusnya). 
+                Implementasi ini menggunakan React Navigation dengan bottom tabs navigator yang memberikan pengalaman 
+                navigasi yang smooth dan responsif. Setiap tab memiliki icon yang sesuai dengan konten halaman dan 
+                styling yang konsisten dengan desain keseluruhan aplikasi. Tabs bar ini sudah fully functional dan 
+                siap digunakan untuk navigasi dalam aplikasi.
+              </Text>
+            </View>
+          </View>
         </View>
-        
-        <View style={styles.statusItem}>
-          <View style={[styles.statusDot, styles.statusDotPending]}></View>
-          <Text style={styles.statusText}>Testing Phase</Text>
-          <Text style={styles.statusPending}>⏳</Text>
-        </View>
-        
-        <View style={styles.statusItem}>
-          <View style={[styles.statusDot, styles.statusDotPending]}></View>
-          <Text style={styles.statusText}>Release</Text>
-          <Text style={styles.statusPending}>🎉</Text>
+
+        {/* Implementation Demo Section */}
+        <View style={styles.demoSection}>
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionIcon}>🎯</Text>
+            <Text style={styles.sectionTitle}>Demo Tabs Bar</Text>
+          </View>
+          
+          <View style={styles.demoContainer}>
+            <Text style={styles.demoText}>
+              Tabs Bar yang sudah diimplementasikan dapat Anda lihat di bagian bawah layar aplikasi ini.
+            </Text>
+            
+            <View style={styles.tabsPreview}>
+              <View style={styles.tabItem}>
+                <Text style={styles.tabIcon}>🏠</Text>
+                <Text style={styles.tabLabel}>Halaman Utama</Text>
+              </View>
+              <View style={styles.tabItem}>
+                <Text style={styles.tabIcon}>👤</Text>
+                <Text style={styles.tabLabel}>Tentang Saya</Text>
+              </View>
+              <View style={styles.tabItem}>
+                <Text style={styles.tabIcon}>📄</Text>
+                <Text style={styles.tabLabel}>Profile</Text>
+              </View>
+              <View style={[styles.tabItem, styles.activeTab]}>
+                <Text style={styles.tabIcon}>📝</Text>
+                <Text style={[styles.tabLabel, styles.activeTabLabel]}>Tugas</Text>
+              </View>
+              <View style={styles.tabItem}>
+                <Text style={styles.tabIcon}>➕</Text>
+                <Text style={styles.tabLabel}>More</Text>
+              </View>
+            </View>
+          </View>
         </View>
       </View>
-      
-      <View style={styles.infoBox}>
-        <Text style={styles.infoIcon}>💡</Text>
-        <Text style={styles.infoText}>
-          Want to be notified when this task is ready? Keep checking back for updates!
-        </Text>
-      </View>
-      
-      <View style={styles.comingSoonBadge}>
-        <Text style={styles.badgeText}>COMING SOON</Text>
-      </View>
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f1f5f9',
-    padding: 20,
-    minHeight: 500,
+    backgroundColor: '#f8fafc',
   },
-  headerSection: {
+  header: {
     alignItems: 'center',
-    marginBottom: 30,
-    marginTop: 20,
+    paddingTop: 40,
+    paddingBottom: 20,
+    backgroundColor: '#667eea',
+    borderBottomLeftRadius: 30,
+    borderBottomRightRadius: 30,
+  },
+  iconContainer: {
+    position: 'relative',
+    marginBottom: 20,
   },
   mainIcon: {
-    fontSize: 70,
-    marginBottom: 15,
+    fontSize: 60,
+    textAlign: 'center',
+  },
+  sparkles: {
+    position: 'absolute',
+    top: -5,
+    right: -10,
+    fontSize: 20,
   },
   title: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: '#1e293b',
+    color: 'white',
     marginBottom: 5,
     textAlign: 'center',
   },
   subtitle: {
-    fontSize: 18,
-    color: '#64748b',
+    fontSize: 16,
+    color: 'rgba(255, 255, 255, 0.8)',
     textAlign: 'center',
-    fontWeight: '600',
+    fontWeight: '500',
   },
-  messageContainer: {
-    backgroundColor: 'white',
-    borderRadius: 16,
+  contentContainer: {
     padding: 20,
+  },
+  flexContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    gap: 15,
     marginBottom: 30,
+  },
+  leftColumn: {
+    flex: 1,
+  },
+  rightColumn: {
+    flex: 1,
+  },
+  sectionHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 15,
+  },
+  sectionIcon: {
+    fontSize: 24,
+    marginRight: 12,
+  },
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#1e293b',
+  },
+  answerBox: {
+    backgroundColor: 'white',
+    borderRadius: 12,
+    padding: 20,
     elevation: 3,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
     borderLeftWidth: 4,
-    borderLeftColor: '#f59e0b',
+    borderLeftColor: '#3b82f6',
+    minHeight: 200,
   },
-  message: {
-    fontSize: 16,
-    color: '#374151',
-    textAlign: 'center',
+  answerText: {
+    fontSize: 15,
+    color: '#475569',
     lineHeight: 24,
+    textAlign: 'justify',
   },
-  statusContainer: {
+  boldText: {
+    fontWeight: 'bold',
+    color: '#1e293b',
+  },
+  demoSection: {
+    marginTop: 20,
+  },
+  demoContainer: {
     backgroundColor: 'white',
-    borderRadius: 16,
+    borderRadius: 12,
     padding: 20,
-    marginBottom: 25,
     elevation: 3,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
   },
-  statusItem: {
+  demoText: {
+    fontSize: 16,
+    color: '#475569',
+    textAlign: 'center',
+    marginBottom: 20,
+    lineHeight: 22,
+  },
+  tabsPreview: {
     flexDirection: 'row',
+    backgroundColor: '#f8fafc',
+    borderRadius: 12,
+    padding: 10,
+    justifyContent: 'space-around',
+    borderWidth: 2,
+    borderColor: '#e2e8f0',
+  },
+  tabItem: {
     alignItems: 'center',
-    paddingVertical: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: '#f1f5f9',
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderRadius: 8,
   },
-  statusDot: {
-    width: 12,
-    height: 12,
-    borderRadius: 6,
-    backgroundColor: '#22c55e',
-    marginRight: 15,
-  },
-  statusDotActive: {
+  activeTab: {
     backgroundColor: '#3b82f6',
   },
-  statusDotPending: {
-    backgroundColor: '#d1d5db',
+  tabIcon: {
+    fontSize: 20,
+    marginBottom: 4,
   },
-  statusText: {
-    flex: 1,
-    fontSize: 16,
-    color: '#374151',
+  tabLabel: {
+    fontSize: 12,
+    color: '#64748b',
     fontWeight: '500',
   },
-  statusCheck: {
-    fontSize: 16,
-  },
-  statusProgress: {
-    fontSize: 16,
-  },
-  statusPending: {
-    fontSize: 16,
-  },
-  infoBox: {
-    flexDirection: 'row',
-    backgroundColor: 'rgba(99, 102, 241, 0.1)',
-    borderRadius: 12,
-    padding: 15,
-    marginBottom: 25,
-    alignItems: 'flex-start',
-  },
-  infoIcon: {
-    fontSize: 20,
-    marginRight: 12,
-    marginTop: 2,
-  },
-  infoText: {
-    flex: 1,
-    fontSize: 14,
-    color: '#4338ca',
-    lineHeight: 20,
-  },
-  comingSoonBadge: {
-    backgroundColor: '#7c3aed',
-    borderRadius: 25,
-    paddingVertical: 12,
-    paddingHorizontal: 30,
-    alignSelf: 'center',
-    elevation: 4,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-  },
-  badgeText: {
+  activeTabLabel: {
     color: 'white',
-    fontSize: 16,
     fontWeight: 'bold',
-    textAlign: 'center',
-    letterSpacing: 1,
   },
 });
 
