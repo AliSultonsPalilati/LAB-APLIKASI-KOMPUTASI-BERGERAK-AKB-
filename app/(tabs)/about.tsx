@@ -1,147 +1,388 @@
 import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, ScrollView, StatusBar } from 'react-native';
 import AntDesign from '@expo/vector-icons/AntDesign';
+import { LinearGradient } from 'expo-linear-gradient';
 
 export default function AboutScreen() {
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <ScrollView contentContainerStyle={styles.container}>
-        <View style={styles.header}>
-          <Text style={styles.headerTitle}>Tentang Aplikasi</Text>
-          <Text style={styles.headerSubtitle}>
-            Dibangun dengan React Native & Expo
-          </Text>
-        </View>
+    <>
+      <StatusBar barStyle="light-content" backgroundColor="#1e40af" />
+      <SafeAreaView style={styles.safeArea}>
+        <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
+          {/* Hero Section with Gradient */}
+          <LinearGradient
+            colors={['#1e40af', '#3b82f6', '#60a5fa'] as const}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={styles.heroSection}
+          >
+            <View style={styles.heroIcon}>
+              <AntDesign name="mobile1" size={48} color="white" />
+            </View>
+            <Text style={styles.heroTitle}>Tentang Aplikasi</Text>
+            <Text style={styles.heroSubtitle}>
+              Dibangun dengan React Native & Expo
+            </Text>
+          </LinearGradient>
 
-        <View style={styles.card}>
-          <InfoItem
-            icon="appstore-o"
-            title="Tujuan Aplikasi"
-            description="Aplikasi ini dirancang dan dikembangkan sebagai bagian dari pemenuhan tugas mata kuliah Pemrograman Mobile."
-          />
-        </View>
+          {/* Purpose Card */}
+          <View style={styles.purposeCard}>
+            <View style={styles.purposeHeader}>
+              <LinearGradient
+                colors={['#f59e0b', '#f97316'] as const}
+                style={styles.purposeIconContainer}
+              >
+                <AntDesign name="bulb1" size={28} color="white" />
+              </LinearGradient>
+              <Text style={styles.purposeTitle}>Tujuan Aplikasi</Text>
+            </View>
+            <Text style={styles.purposeDescription}>
+              Aplikasi ini dirancang dan dikembangkan sebagai bagian dari pemenuhan tugas mata kuliah 
+              <Text style={styles.highlightText}> Aplikasi Komputasi Bergerak</Text>, 
+              dengan fokus pada pengembangan antarmuka yang intuitif dan fungsionalitas yang komprehensif.
+            </Text>
+          </View>
 
-        <View style={styles.card}>
-          <Text style={styles.sectionTitle}>Fungsi Setiap Halaman</Text>
-          <InfoItem
-            icon="home"
-            title="Halaman Utama"
-            description="Menampilkan informasi singkat dan menarik mengenai Universitas Muhammadiyah Makassar."
-            isListItem
-          />
-          <InfoItem
-            icon="infocirlceo"
-            title="Tentang Aplikasi"
-            description="Memberikan penjelasan mengenai teknologi yang digunakan dan fungsionalitas setiap halaman."
-            isListItem
-          />
-          <InfoItem
-            icon="user"
-            title="Profil Pengembang"
-            description="Menampilkan data diri pengembang aplikasi, termasuk nama, NIM, dan foto profil."
-            isListItem
-          />
-           <InfoItem
-            icon="book"
-            title="Halaman Tugas"
-            description="Berisi kumpulan semua tugas yang telah dikerjakan selama perkuliahan."
-            isListItem
-            isLastItem
-          />
-        </View>
-        
-        <View style={styles.footer}>
-            <Text style={styles.footerText}>Versi 1.0.0</Text>
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+          {/* Features Section */}
+          <View style={styles.featuresCard}>
+            <View style={styles.featuresHeader}>
+              <LinearGradient
+                colors={['#8b5cf6', '#a855f7'] as const}
+                style={styles.featuresIconContainer}
+              >
+                <AntDesign name="appstore-o" size={28} color="white" />
+              </LinearGradient>
+              <Text style={styles.featuresTitle}>Fitur & Halaman</Text>
+            </View>
+            
+            <FeatureItem
+              icon="home"
+              title="Halaman Utama"
+              description="Dashboard informatif dengan tampilan overview Universitas Muhammadiyah Makassar yang menarik dan mudah dipahami."
+              gradientColors={['#10b981', '#059669'] as const}
+            />
+            
+            <FeatureItem
+              icon="infocirlceo"
+              title="Tentang Aplikasi"
+              description="Dokumentasi lengkap mengenai teknologi, arsitektur, dan penjelasan detail setiap fungsionalitas aplikasi."
+              gradientColors={['#3b82f6', '#2563eb'] as const}
+            />
+            
+            <FeatureItem
+              icon="user"
+              title="Profil Pengembang"
+              description="Portfolio digital yang menampilkan identitas, kredensial akademik, dan informasi kontak pengembang."
+              gradientColors={['#f59e0b', '#d97706'] as const}
+            />
+            
+            <FeatureItem
+              icon="book"
+              title="Halaman Tugas"
+              description="Koleksi terorganisir dari semua assignment dan project yang telah diselesaikan selama masa perkuliahan."
+              gradientColors={['#8b5cf6', '#7c3aed'] as const}
+              isLastItem
+            />
+          </View>
+
+          {/* Tech Stack Card */}
+          <View style={styles.techCard}>
+            <View style={styles.techHeader}>
+              <LinearGradient
+                colors={['#06b6d4', '#0891b2'] as const}
+                style={styles.techIconContainer}
+              >
+                <AntDesign name="codesquareo" size={28} color="white" />
+              </LinearGradient>
+              <Text style={styles.techTitle}>Teknologi yang Digunakan</Text>
+            </View>
+            
+            <View style={styles.techStack}>
+              <TechBadge title="React Native" />
+              <TechBadge title="Expo SDK" />
+              <TechBadge title="TypeScript" />
+              <TechBadge title="React Navigation" />
+              <TechBadge title="Expo Vector Icons" />
+              <TechBadge title="Linear Gradient" />
+            </View>
+          </View>
+
+          {/* Footer */}
+          <View style={styles.footer}>
+            <LinearGradient
+              colors={['#6366f1', '#8b5cf6'] as const}
+              style={styles.versionBadge}
+            >
+              <AntDesign name="tag" size={16} color="white" />
+              <Text style={styles.versionText}>Versi 1.0.0</Text>
+            </LinearGradient>
+            <Text style={styles.footerText}>
+              © 2024 • Dibuat dengan ❤️ untuk Tugas Mobile Programming
+            </Text>
+          </View>
+        </ScrollView>
+      </SafeAreaView>
+    </>
   );
 }
 
-const InfoItem = ({ icon, title, description, isListItem = false, isLastItem = false }: { icon: any, title: string, description: string, isListItem?: boolean, isLastItem?: boolean }) => (
-  <View style={[styles.infoItem, isListItem && styles.listItem, isLastItem && styles.lastListItem]}>
-    <AntDesign name={icon} size={24} color="#1d4ed8" style={styles.icon} />
-    <View style={styles.infoTextContainer}>
-      <Text style={styles.infoTitle}>{title}</Text>
-      <Text style={styles.infoDescription}>{description}</Text>
+const FeatureItem = ({ 
+  icon, 
+  title, 
+  description, 
+  gradientColors, 
+  isLastItem = false 
+}: { 
+  icon: any; 
+  title: string; 
+  description: string; 
+  gradientColors: readonly [string, string]; 
+  isLastItem?: boolean; 
+}) => (
+  <View style={[styles.featureItem, isLastItem && styles.lastFeatureItem]}>
+    <LinearGradient
+      colors={gradientColors}
+      style={styles.featureIconContainer}
+    >
+      <AntDesign name={icon} size={24} color="white" />
+    </LinearGradient>
+    <View style={styles.featureTextContainer}>
+      <Text style={styles.featureTitle}>{title}</Text>
+      <Text style={styles.featureDescription}>{description}</Text>
     </View>
+  </View>
+);
+
+const TechBadge = ({ title }: { title: string }) => (
+  <View style={styles.techBadge}>
+    <Text style={styles.techBadgeText}>{title}</Text>
   </View>
 );
 
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: '#eef2ff',
+    backgroundColor: '#f8fafc',
   },
   container: {
-    padding: 20,
+    paddingBottom: 30,
   },
-  header: {
+  
+  // Hero Section
+  heroSection: {
+    paddingHorizontal: 20,
+    paddingVertical: 40,
     alignItems: 'center',
-    marginBottom: 25,
+    position: 'relative',
+    overflow: 'hidden',
   },
-  headerTitle: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: '#312e81',
-  },
-  headerSubtitle: {
-    fontSize: 16,
-    color: '#4338ca',
-  },
-  card: {
-    backgroundColor: 'white',
-    borderRadius: 16,
+  heroIcon: {
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
     padding: 20,
+    borderRadius: 50,
     marginBottom: 20,
-    elevation: 4,
-    shadowColor: '#4338ca',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 10,
   },
-  sectionTitle: {
-    fontSize: 20,
-    fontWeight: '600',
-    color: '#312e81',
-    marginBottom: 15,
+  heroTitle: {
+    fontSize: 32,
+    fontWeight: 'bold',
+    color: 'white',
+    textAlign: 'center',
+    marginBottom: 8,
   },
-  infoItem: {
+  heroSubtitle: {
+    fontSize: 16,
+    color: 'rgba(255, 255, 255, 0.9)',
+    textAlign: 'center',
+  },
+  heroDecoration: {
+    position: 'absolute',
+    bottom: 20,
     flexDirection: 'row',
-    alignItems: 'flex-start',
+    gap: 8,
   },
-  listItem: {
-    paddingVertical: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: '#eef2ff',
+  decorationDot: {
+    width: 8,
+    height: 8,
+    backgroundColor: 'rgba(255, 255, 255, 0.5)',
+    borderRadius: 4,
   },
-  lastListItem: {
-      borderBottomWidth: 0,
+  decorationDotDelay: {
+    backgroundColor: 'rgba(255, 255, 255, 0.7)',
   },
-  icon: {
-    marginRight: 15,
-    marginTop: 5,
+  decorationDotDelay2: {
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
   },
-  infoTextContainer: {
+
+  // Purpose Card
+  purposeCard: {
+    backgroundColor: 'white',
+    marginHorizontal: 20,
+    marginTop: -20,
+    borderRadius: 20,
+    padding: 24,
+    elevation: 8,
+    shadowColor: '#1e40af',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.15,
+    shadowRadius: 20,
+  },
+  purposeHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  purposeIconContainer: {
+    padding: 12,
+    borderRadius: 12,
+    marginRight: 16,
+  },
+  purposeTitle: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    color: '#1e293b',
     flex: 1,
   },
-  infoTitle: {
+  purposeDescription: {
+    fontSize: 16,
+    color: '#64748b',
+    lineHeight: 24,
+  },
+  highlightText: {
+    color: '#1e40af',
+    fontWeight: '600',
+  },
+
+  // Features Card
+  featuresCard: {
+    backgroundColor: 'white',
+    marginHorizontal: 20,
+    marginTop: 24,
+    borderRadius: 20,
+    padding: 24,
+    elevation: 8,
+    shadowColor: '#8b5cf6',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.15,
+    shadowRadius: 20,
+  },
+  featuresHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 24,
+  },
+  featuresIconContainer: {
+    padding: 12,
+    borderRadius: 12,
+    marginRight: 16,
+  },
+  featuresTitle: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    color: '#1e293b',
+    flex: 1,
+  },
+  featureItem: {
+    flexDirection: 'row',
+    paddingVertical: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f1f5f9',
+  },
+  lastFeatureItem: {
+    borderBottomWidth: 0,
+  },
+  featureIconContainer: {
+    padding: 12,
+    borderRadius: 12,
+    marginRight: 16,
+    alignSelf: 'flex-start',
+  },
+  featureTextContainer: {
+    flex: 1,
+  },
+  featureTitle: {
     fontSize: 18,
     fontWeight: '600',
-    color: '#3730a3',
-    marginBottom: 4,
+    color: '#1e293b',
+    marginBottom: 6,
   },
-  infoDescription: {
+  featureDescription: {
     fontSize: 15,
-    color: '#475569',
+    color: '#64748b',
     lineHeight: 22,
   },
+
+  // Tech Stack Card
+  techCard: {
+    backgroundColor: 'white',
+    marginHorizontal: 20,
+    marginTop: 24,
+    borderRadius: 20,
+    padding: 24,
+    elevation: 8,
+    shadowColor: '#06b6d4',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.15,
+    shadowRadius: 20,
+  },
+  techHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  techIconContainer: {
+    padding: 12,
+    borderRadius: 12,
+    marginRight: 16,
+  },
+  techTitle: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    color: '#1e293b',
+    flex: 1,
+  },
+  techStack: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 12,
+  },
+  techBadge: {
+    backgroundColor: '#f1f5f9',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: '#e2e8f0',
+  },
+  techBadgeText: {
+    fontSize: 14,
+    color: '#475569',
+    fontWeight: '500',
+  },
+
+  // Footer
   footer: {
-      marginTop: 20,
-      alignItems: 'center',
+    alignItems: 'center',
+    marginTop: 32,
+    paddingHorizontal: 20,
+  },
+  versionBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 20,
+    marginBottom: 16,
+    gap: 8,
+  },
+  versionText: {
+    color: 'white',
+    fontSize: 14,
+    fontWeight: '600',
   },
   footerText: {
-      fontSize: 14,
-      color: '#6b7280',
-  }
+    fontSize: 14,
+    color: '#94a3b8',
+    textAlign: 'center',
+    lineHeight: 20,
+  },
 });
