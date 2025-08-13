@@ -13,7 +13,7 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import Feather from '@expo/vector-icons/Feather';
 import { LinearGradient } from 'expo-linear-gradient';
 
-// Data untuk sosial media dan keahlian
+// Data untuk sosial media dan 
 const socialLinks = [
   { icon: 'github', url: 'https://github.com/AliSultonsPalilati' },
   { icon: 'instagram', url: 'https://www.instagram.com/alisultn._/?next=%2F' },

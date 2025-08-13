@@ -17,6 +17,7 @@ import Tugas5 from '../tugas5';
 import Tugas6 from '../tugas6';
 import Tugas7 from '../tugas7';
 import Tugas8 from '../tugas8';
+import Tugas9 from '../tugas9';
 
 export default function TugasScreen(): React.JSX.Element {
   const [activeTask, setActiveTask] = useState<number>(1);
@@ -33,6 +34,7 @@ export default function TugasScreen(): React.JSX.Element {
     { id: 6, title: "🧩 Tugas 6", component: <Tugas6 /> },
     { id: 7, title: "🎯 Tugas 7", component: <Tugas7 /> },
     { id: 8, title: "🚀 Tugas 8", component: <Tugas8 /> },
+    { id: 9, title: "🤔 Tugas 9", component: <Tugas9 /> },
   ];
 
   const getTaskRows = () => {
